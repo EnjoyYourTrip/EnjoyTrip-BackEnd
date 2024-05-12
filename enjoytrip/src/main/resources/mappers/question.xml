@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.enjoytrip.domain.question.mapper.QuestionMapper">
+
+    <!-- 전체질문 조회 -->
+    <select id="listQuestion" resultType="Question">
+        SELECT *
+        FROM question;
+    </select>
+
+    <!-- 상세질문 조회 -->
+    <select id="questionInfo" parameterType="Long" resultType="Question">
+        SELECT *
+        FROM question
+        WHERE question_id = #{questionId};
+    </select>
+
+    <!-- 질문 등록 -->
+    <insert id="insertQuestion" parameterType="Question" useGeneratedKeys="true" keyProperty="questionId">
+        INSERT INTO question (title, content, hit, has_response, member_id, created_date, last_modified_date)
+        VALUES (#{title}, #{content}, #{hit}, #{hasResponse}, #{memberId}, #{createdDate}, #{lastModifiedDate})
+    </insert>
+
+    <!-- 질문 삭제 -->
+    <delete id="deleteQuestion" parameterType="Long">
+        DELETE FROM question
+        WHERE question_id = #{questionId}
+    </delete>
+
+    <!-- 질문 수정 -->
+    <update id="updateQuestion" parameterType="Question">
+        UPDATE question
+        SET title = #{title}, content = #{content}, last_modified_date = #{lastModifiedDate}
+        WHERE question_id = #{questionId}
+    </update>
+
+    <!-- 질문 조회수 증가 -->
+    <update id="updateHit" parameterType="Long">
+        UPDATE question
+        SET hit = hit + 1
+        WHERE question_id = #{questionId}
+    </update>
+
+    <!-- 질문 검색 -->
+    <select id="searchQuestion" parameterType="SearchCondition" resultType="Question">
+        SELECT * FROM question
+        <trim prefix="WHERE" prefixOverrides="AND">
+            <if test="title != null">
+                AND title LIKE concat('%', #{title}, '%')
+            </if>
+            <if test="content != null">
+                AND content LIKE concat('%', #{content}, '%')
+            </if>
+        </trim>
+        <if test="order != null">
+            ORDER BY ${order} ${direction}
+        </if>
+    </select>
+</mapper>
