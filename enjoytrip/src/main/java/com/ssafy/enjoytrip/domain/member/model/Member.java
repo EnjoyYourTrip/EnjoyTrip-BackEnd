@@ -1,23 +1,18 @@
 package com.ssafy.enjoytrip.domain.member.model;
 
+import com.ssafy.enjoytrip.domain.common.BaseTimeEntity;
 import lombok.*;
-
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Member {
+public class Member extends BaseTimeEntity {
     private Long memberId;
-    private String name;
+    private String username;
     private String id;
     private String password;
     private String nickname;
-    private String profileImg;
     private String email;
-    private Role role; // ADMIN, USER
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-    private LocalDateTime deletedAt;
+    private Role role;
 }
