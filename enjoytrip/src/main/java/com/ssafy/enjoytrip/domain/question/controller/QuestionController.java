@@ -32,8 +32,11 @@ public class QuestionController {
     @GetMapping("/{questionId}")
     public ApiResponse<?> getQuestion(@PathVariable Long questionId) {
         try {
-            Question question = questionService.questionInfo(questionId);
-            return ApiResponse.createSuccess(question);
+            Question findQuestion = questionService.questionInfo(questionId);
+            if (findQuestion == null) {
+                return ApiResponse.createFail("질문글 상세 조회 실패");
+            }
+            return ApiResponse.createSuccess(findQuestion);
         } catch (Exception e) {
             log.error("Failed to retrieve question with ID: {}", questionId, e);
             return ApiResponse.createError("질문글 상세 조회 실패");
