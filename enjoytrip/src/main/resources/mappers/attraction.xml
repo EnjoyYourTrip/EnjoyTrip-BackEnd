@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.enjoytrip.domain.attraction.mapper.AttractionMapper">
+
+    <select id="attractionList" parameterType="map" resultType="Attractioninfo">
+        SELECT content_id, content_type_id, title, addr1, addr2,
+        zipcode, tel, first_image, first_image2, readcount, sido_code, gugun_code, latitude, longitude, mlevel
+        FROM attraction_info
+        <where>
+            <if test="sidoCode != 0">
+                AND sido_code=#{sidoCode}
+            </if>
+            <if test="contentTypeId != 0">
+                AND content_type_id=#{contentTypeId}
+            </if>
+            <if test="title != ''">
+                AND title LIKE concat('%', #{title}, '%')
+            </if>
+        </where>
+        ORDER BY content_id
+        LIMIT 300
+    </select>
+
+
+    <select id="gugunList" parameterType="int" resultType="Gugun">
+        SELECT gugun_code, gugun_name, sido_code
+        FROM gugun
+        WHERE sido_code = #{sidoCode}
+    </select>
+
+    <select id="sidoList" resultType="Sido">
+        SELECT sido_code, sido_name
+        from sido
+    </select>
+
+    <select id="getAttraction" parameterType="int" resultType="Attractioninfo">
+        SELECT content_id, content_type_id, title, addr1, addr2,
+        zipcode, tel, first_image, first_image2, readcount, sido_code, gugun_code, latitude, longitude, mlevel
+        FROM attraction_info
+        WHERE content_id=#{contentId}
+    </select>
+
+    <select id="getOverview" parameterType="int" resultType="String">
+        SELECT overview
+        FROM attraction_description
+        WHERE content_id=#{contentId}
+    </select>
+
+</mapper>
