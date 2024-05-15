@@ -4,7 +4,6 @@ import com.ssafy.enjoytrip.domain.question.model.dto.SearchCondition;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.ssafy.enjoytrip.domain.question.model.Question;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -25,7 +24,7 @@ public interface QuestionMapper {
 
     List<Question> searchQuestion(SearchCondition searchCondition);
 
-    void toggleQuestionResponseStatus(Long questionId);
+    void updateToggleQuestionResponseStatus(Long questionId);
 
     boolean hasAdminResponse(Long questionId);
 

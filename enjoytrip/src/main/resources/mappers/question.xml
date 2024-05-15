@@ -57,7 +57,7 @@
         </if>
     </select>
 
-    <update id="toggleQuestionResponseStatus" parameterType="Long">
+    <update id="updateToggleQuestionResponseStatus" parameterType="Long">
         UPDATE question
         SET has_response = NOT has_response
         WHERE question_id = #{questionId}
