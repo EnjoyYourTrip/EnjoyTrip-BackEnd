@@ -56,4 +56,18 @@
             ORDER BY ${order} ${direction}
         </if>
     </select>
+
+    <update id="toggleQuestionResponseStatus" parameterType="Long">
+        UPDATE question
+        SET has_response = NOT has_response
+        WHERE question_id = #{questionId}
+    </update>
+
+    <select id="hasAdminResponse" parameterType="Long" resultType="boolean">
+        SELECT EXISTS (
+        SELECT 1
+        FROM question
+        WHERE question_id = #{questionId} AND has_response = false
+        )
+    </select>
 </mapper>
