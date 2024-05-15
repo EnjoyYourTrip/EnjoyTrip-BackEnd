@@ -10,26 +10,31 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-//@Transactional(readOnly = true)
+@Transactional(readOnly = true)
 public class MemberServiceImpl implements MemberService {
     private final MemberMapper memberMapper;
 
     @Override
-//    @Transactional
+    @Transactional
     public void insertMember(Member member) {
         memberMapper.insertMember(member);
+        insertRole(member);
+    }
+
+    private void insertRole(Member member) {
         Long memberId = member.getMemberId();
         memberMapper.insertRole(memberId);
     }
 
     @Override
-//    @Transactional
+    @Transactional
     public Member login(Member member) {
         return memberMapper.login(member);
     }
 
     @Override
     public void logout(Long memberId) {
+        // 추후 jwt로 로그아웃
     }
 
     @Override
@@ -49,7 +54,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-//    @Transactional
+    @Transactional
     public void deleteMember(Long memberId) {
         memberMapper.deleteRole(memberId);
         memberMapper.deleteMember(memberId);
