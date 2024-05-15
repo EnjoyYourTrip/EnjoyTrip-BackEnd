@@ -12,30 +12,31 @@
     </insert>
 
     <delete id="deleteAnswer" parameterType="Long">
-        <choose>
-            <when test="isAdmin(memberId)">
-                DELETE FROM answer WHERE answer_id = #{answerId};
-                UPDATE question SET has_response = false WHERE question_id = (SELECT question_id FROM answer WHERE
-                answer_id = #{answerId});
-            </when>
-            <otherwise>
-                <!--삭제 조건 부합x-->
-            </otherwise>
-        </choose>
+        DELETE FROM answer WHERE answer_id = #{answerId};
     </delete>
 
     <update id="updateAnswer" parameterType="Answer">
         UPDATE answer
-        SET question_id = #{questionId}, member_id = #{memberId}, content = #{content}, last_modified_date =
-        #{lastModifiedDate}
+        SET content = #{content}, last_modified_date = #{lastModifiedDate}
         WHERE answer_id = #{answerId}
     </update>
 
-    <select id="isAdmin" parameterType="Long" resultType="int">
-        SELECT COUNT(*) FROM roles WHERE member_id = #{memberId} AND role_name = 'ADMIN'
+    <select id="getQuestionId" parameterType="Long" resultType="Long">
+        SELECT question_id
+        FROM answer
+        WHERE answer_id = #{answerId}
     </select>
 
     <select id="isAdminRole" parameterType="Long" resultType="boolean">
-        SELECT COUNT(*) > 0 FROM roles WHERE member_id = #{memberId} AND role_name = 'ADMIN'
+        SELECT EXISTS (SELECT 1 FROM roles WHERE member_id = #{memberId} AND role_name = 'ADMIN')
     </select>
+
+    <!--    <select id="hasAdminResponse" parameterType="map" resultType="boolean">-->
+    <!--        SELECT EXISTS (-->
+    <!--            SELECT 1-->
+    <!--            FROM roles r LEFT JOIN answer a-->
+    <!--            ON r.member_id = a.member_id AND a.question_id = #{questionId}-->
+    <!--            WHERE r.member_id = #{memberId} AND r.role_name = 'ADMIN' AND a.answer_id IS NULL-->
+    <!--            )-->
+    <!--    </select>-->
 </mapper>

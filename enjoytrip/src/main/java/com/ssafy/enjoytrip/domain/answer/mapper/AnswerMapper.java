@@ -12,9 +12,12 @@ public interface AnswerMapper {
 
     void insertAnswer(Answer answer); // 답변 등록
 
-    void deleteAnswer(@Param("answerId") Long answerId, @Param("memberId") Long memberId); // 답변 삭제
+    void deleteAnswer(Long answerId); // 답변 삭제
 
     void updateAnswer(Answer answer); // 답변 수정
 
     boolean isAdminRole(Long memberId); // admin 확인
+
+    Long getQuestionId(Long memberId); // 답변에 해당하는 질문글 조회
+
 }
