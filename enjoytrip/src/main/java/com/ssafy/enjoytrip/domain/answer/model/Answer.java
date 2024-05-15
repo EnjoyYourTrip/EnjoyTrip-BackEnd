@@ -9,10 +9,19 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class Answer extends BaseTimeEntity {
     private Long answerId;
     private Long questionId;
     private Long memberId;
     private String content;
+
+    public Answer(Long questionId, Long memberId, String content) {
+        this.questionId = questionId;
+        this.memberId = memberId;
+        this.content = content;
+    }
+
+    public static Answer createAnswer(Long questionId, Long memberId, String content) {
+        return new Answer(questionId, memberId, content);
+    }
 }

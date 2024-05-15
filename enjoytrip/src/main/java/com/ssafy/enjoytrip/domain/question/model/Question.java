@@ -17,4 +17,14 @@ public class Question extends BaseTimeEntity {
     private Integer hit;
     private Boolean hasResponse;
     private Long memberId;
+
+    public Question(String title, String content, Long memberId) {
+        this.title = title;
+        this.content = content;
+        this.memberId = memberId;
+    }
+
+    public static Question createQuestion(String title, String content, Long memberId) {
+        return new Question(title, content, memberId);
+    }
 }
