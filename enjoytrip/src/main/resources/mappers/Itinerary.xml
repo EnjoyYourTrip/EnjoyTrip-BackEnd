@@ -72,4 +72,52 @@
         id.itinerary_order = 1
     </select>
 
+
+    <!-- 여행 계획 경로 게시글 상세 뷰 -->
+    <select id="getItineraryDetailView" parameterType="Long" resultMap="ItineraryDetailViewDtoMap">
+        SELECT
+        i.itinerary_id,
+        i.title AS itinerary_title,
+        i.content AS itinerary_content,
+        i.content AS itinerary_content,
+        i.start_date,
+        i.end_date,
+        i.created_date,
+        m.nickname,
+        a.content_id,
+        a.title AS attraction_title,
+        a.addr1 AS attraction_address,
+        a.first_image AS attraction_first_image,
+        a.latitude,
+        a.longitude
+        FROM
+        itinerary i
+        JOIN
+        members m ON i.member_id = m.member_id
+        JOIN
+        itinerary_detail id ON i.itinerary_id = id.itinerary_id
+        JOIN
+        attraction_info a ON id.content_id = a.content_id
+        WHERE
+        i.itinerary_id = #{itineraryId}
+    </select>
+
+    <resultMap id="ItineraryDetailViewDtoMap" type="com.ssafy.enjoytrip.domain.itinerary.model.dto.ItineraryDetailViewDto">
+        <id property="itineraryId" column="itinerary_id"/>
+        <result property="title" column="itinerary_title"/>
+        <result property="content" column="itinerary_content"/>
+        <result property="startDate" column="start_date"/>
+        <result property="endDate" column="end_date"/>
+        <result property="createdDate" column="created_date"/>
+        <result property="nickname" column="nickname"/>
+        <collection property="places" ofType="com.ssafy.enjoytrip.domain.itinerary.model.dto.ItineraryDetailViewDto$Place">
+            <id property="contentId" column="content_id"/>
+            <result property="title" column="attraction_title"/>
+            <result property="addr1" column="attraction_address"/>
+            <result property="firstImage" column="attraction_first_image"/>
+            <result property="latitude" column="latitude"/>
+            <result property="longitude" column="longitude"/>
+        </collection>
+    </resultMap>
+
 </mapper>

@@ -2,6 +2,7 @@ package com.ssafy.enjoytrip.domain.itinerary.mapper;
 
 import com.ssafy.enjoytrip.domain.itinerary.model.ItineraryDetail;
 import com.ssafy.enjoytrip.domain.itinerary.model.Itinerary;
+import com.ssafy.enjoytrip.domain.itinerary.model.dto.ItineraryDetailViewDto;
 import com.ssafy.enjoytrip.domain.itinerary.model.dto.ItineraryOverviewDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -27,4 +28,6 @@ public interface ItineraryMapper {
     List<ItineraryDetail> getItineraryDetailList(Long itineraryId);
 
     List<ItineraryOverviewDto> getItineraryOverviewList();
+
+    ItineraryDetailViewDto getItineraryDetailView(Long itineraryId);
 }
