@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS roles, comment, answer, question, place, itinerary, hotplace, members CASCADE;
+DROP TABLE IF EXISTS members, roles, question, answer, itinerary, itinerary_detail, hotplace, comment CASCADE;
 
 CREATE TABLE `members`
 (
@@ -62,17 +62,12 @@ CREATE TABLE `itinerary`
     FOREIGN KEY (`member_id`) REFERENCES `members` (`member_id`)
 );
 
-CREATE TABLE `place`
+CREATE TABLE `itinerary_detail`
 (
-    `place_id`     BIGINT AUTO_INCREMENT PRIMARY KEY,
-    `latitude`     DECIMAL(10, 8) NOT NULL,
-    `longitude`    DECIMAL(11, 8) NOT NULL,
-    `name`         VARCHAR(40)    NOT NULL,
-    `overview`     VARCHAR(10000) NOT NULL,
-    `address`      VARCHAR(255)   NOT NULL,
-    `place_img`    VARCHAR(255) NULL,
-    `itinerary_id` BIGINT         NOT NULL,
-    `content_id`   int            NOT NULL,
+    `itinerary_detail_id` BIGINT AUTO_INCREMENT PRIMARY KEY,
+    `itinerary_order`     INT    NOT NULL,
+    `itinerary_id`        BIGINT NOT NULL,
+    `content_id`          INT    NOT NULL,
     FOREIGN KEY (`itinerary_id`) REFERENCES `itinerary` (`itinerary_id`)
 );
 
