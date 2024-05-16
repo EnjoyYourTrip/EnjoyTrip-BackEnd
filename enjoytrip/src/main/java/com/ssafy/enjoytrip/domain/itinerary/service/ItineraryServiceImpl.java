@@ -3,6 +3,7 @@ package com.ssafy.enjoytrip.domain.itinerary.service;
 import com.ssafy.enjoytrip.domain.itinerary.mapper.ItineraryMapper;
 import com.ssafy.enjoytrip.domain.itinerary.model.Itinerary;
 import com.ssafy.enjoytrip.domain.itinerary.model.ItineraryDetail;
+import com.ssafy.enjoytrip.domain.itinerary.model.dto.ItineraryDetailViewDto;
 import com.ssafy.enjoytrip.domain.itinerary.model.dto.ItineraryOverviewDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -60,5 +61,11 @@ public class ItineraryServiceImpl implements ItineraryService {
     public void deleteItinerary(Long itineraryId, Long memberId) {
         itineraryMapper.deleteItineraryDetail(itineraryId);
         itineraryMapper.deleteItinerary(itineraryId, memberId);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public ItineraryDetailViewDto getItineraryDetailView(Long itineraryId) {
+        return itineraryMapper.getItineraryDetailView(itineraryId);
     }
 }

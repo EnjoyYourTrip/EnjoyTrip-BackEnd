@@ -2,6 +2,7 @@ package com.ssafy.enjoytrip.domain.itinerary.service;
 
 import com.ssafy.enjoytrip.domain.itinerary.model.Itinerary;
 import com.ssafy.enjoytrip.domain.itinerary.model.ItineraryDetail;
+import com.ssafy.enjoytrip.domain.itinerary.model.dto.ItineraryDetailViewDto;
 import com.ssafy.enjoytrip.domain.itinerary.model.dto.ItineraryOverviewDto;
 
 import java.util.List;
@@ -22,4 +23,6 @@ public interface ItineraryService {
     List<ItineraryOverviewDto> getItineraryOverviewList();
 
     void deleteItinerary(Long itineraryId, Long memberId);
+
+    ItineraryDetailViewDto getItineraryDetailView(Long itineraryId);
 }
