@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.enjoytrip.domain.itinerary.mapper.ItineraryMapper">
+
+    <!-- 마지막 글 번호 -->
+    <select id="findLastItineraryId" parameterType="Long" resultType="Long">
+        SELECT itinerary_id
+        FROM itinerary
+        WHERE member_id = #{memberId}
+        ORDER BY itinerary_id DESC
+        LIMIT 1;
+    </select>
+
+    <!-- 여행계획 작성 -->
+    <insert id="insertItinerary" parameterType="Itinerary" useGeneratedKeys="true" keyProperty="itineraryId">
+        INSERT INTO itinerary (title, content, start_date, end_date, member_id, created_date, last_modified_date)
+        VALUES (#{title}, #{content}, #{startDate}, #{endDate}, #{memberId}, #{createdDate}, #{lastModifiedDate})
+    </insert>
+
+    <!-- 여행계획 삭제  -->
+    <delete id="deleteItinerary" parameterType="Map">
+        DELETE FROM itinerary
+        WHERE member_id = #{memberId} and itinerary_id = #{itineraryId}
+    </delete>
+
+    <!-- 여행계획 경로 삭제  -->
+    <delete id="deleteItineraryDetail" parameterType="Long">
+        DELETE FROM itinerary_detail
+        WHERE itinerary_id = #{itineraryId}
+    </delete>
+
+    <!-- 여행계획 목록 -->
+    <select id="getItineraryList" resultType="Itinerary">
+        SELECT itinerary_id, title, content, start_date, end_date, member_id, created_date, last_modified_date
+        FROM itinerary
+    </select>
+
+    <!-- 회원 여행계획 목록 -->
+    <select id="findItineraryList" parameterType="Long" resultType="Itinerary">
+        SELECT itinerary_id, title, content, start_date, end_date, member_id, created_date, last_modified_date
+        FROM itinerary
+        where member_id = #{memberId}
+    </select>
+
+    <!-- 여행계획 경로 작성 -->
+    <insert id="insertItineraryDetail" parameterType="ItineraryDetail" useGeneratedKeys="true"
+            keyProperty="itineraryDetailId">
+        INSERT INTO Itinerary_detail (itinerary_id, itinerary_order, content_id)
+        VALUES (#{itineraryId}, #{itineraryOrder}, #{contentId})
+    </insert>
+
+    <!-- 여행계획 경로 목록 -->
+    <select id="getItineraryDetailList" parameterType="Long" resultType="ItineraryDetail">
+        select itinerary_detail_id ,itinerary_id, itinerary_order, content_id
+        from itinerary_detail
+        where itinerary_id = #{itineraryId}
+        order by itinerary_order
+    </select>
+
+    <!-- 여행 계획 경로 게시판 뷰 -->
+    <select id="getItineraryOverviewList" resultType="ItineraryOverviewDto">
+        SELECT i.itinerary_id, i.title, i.created_date, m.nickname, ai.first_image
+        FROM
+        itinerary i
+        JOIN
+        members m ON i.member_id = m.member_id
+        JOIN
+        itinerary_detail id ON i.itinerary_id = id.itinerary_id
+        JOIN
+        attraction_info ai ON id.content_id = ai.content_id
+        WHERE
+        id.itinerary_order = 1
+    </select>
+
+</mapper>
