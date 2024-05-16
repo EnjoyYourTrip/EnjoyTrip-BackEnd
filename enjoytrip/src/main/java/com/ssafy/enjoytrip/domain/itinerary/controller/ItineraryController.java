@@ -2,6 +2,7 @@ package com.ssafy.enjoytrip.domain.itinerary.controller;
 
 import com.ssafy.enjoytrip.domain.itinerary.model.Itinerary;
 import com.ssafy.enjoytrip.domain.itinerary.model.ItineraryDetail;
+import com.ssafy.enjoytrip.domain.itinerary.model.dto.ItineraryDetailViewDto;
 import com.ssafy.enjoytrip.domain.itinerary.model.dto.ItineraryOverviewDto;
 import com.ssafy.enjoytrip.domain.itinerary.service.ItineraryService;
 import com.ssafy.enjoytrip.util.ApiResponse;
@@ -85,6 +86,17 @@ public class ItineraryController {
             return ApiResponse.createSuccessWithNoContent();
         } catch (Exception e) {
             log.error("Failed to delete itinerary: {}", e.getMessage());
+            return ApiResponse.createError(e.getMessage());
+        }
+    }
+
+    @GetMapping("/{itineraryId}/details")
+    public ApiResponse<?> getItineraryDetailView(@PathVariable("itineraryId") Long itineraryId) {
+        try {
+            ItineraryDetailViewDto itineraryDetailView = itineraryService.getItineraryDetailView(itineraryId);
+            return ApiResponse.createSuccess(itineraryDetailView);
+        } catch (Exception e) {
+            log.error("Failed to fetch itinerary detail view for itineraryId {}: {}", itineraryId, e.getMessage());
             return ApiResponse.createError(e.getMessage());
         }
     }
