@@ -1,16 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ssafy.enjoytrip.domain.member.mapper.MemberMapper">
-    <!--    <resultMap id="loginDto" type="Member">-->
-    <!--        <id column="member_id" property="memberId"/>-->
-    <!--        <result column="username" property="username"/>-->
-    <!--        <result column="id" property="id"/>-->
-    <!--        <result column="password" property="password"/>-->
-    <!--        <result column="nickname" property="nickname"/>-->
-    <!--        <result column="email" property="email"/>-->
-    <!--        <result column="created_date" property="createdDate"/>-->
-    <!--        <result column="last_modified_date" property="lastModifiedDate"/>-->
-    <!--    </resultMap>-->
 
     <select id="login" parameterType="Member" resultType="Member">
         SELECT member_id, username, id, password, nickname, email, created_date, last_modified_date
@@ -30,16 +20,9 @@
         order by member_id;
     </select>
 
-    <!--    <insert id="insertMember" parameterType="Member" useGeneratedKeys="true" keyProperty="memberId">-->
-    <!--        INSERT INTO members (username, id, password, nickname, email, created_date, last_modified_date)-->
-    <!--        VALUES (#{username}, #{id}, #{password}, #{nickname}, #{email}, #{createdDate},-->
-    <!--        #{lastModifiedDate});-->
-    <!--    </insert>-->
-
     <insert id="insertMember" parameterType="Member" useGeneratedKeys="true" keyProperty="memberId">
         INSERT INTO members (username, id, password, nickname, email, created_date, last_modified_date)
-        VALUES (#{username}, #{id}, #{password}, #{nickname}, #{email}, #{createdDate},
-        #{lastModifiedDate})
+        VALUES (#{username}, #{id}, #{password}, #{nickname}, #{email}, #{createdDate}, #{lastModifiedDate})
     </insert>
 
     <insert id="insertRole" parameterType="Long">
