@@ -5,9 +5,9 @@ CREATE TABLE `members`
     `member_id`          BIGINT AUTO_INCREMENT PRIMARY KEY,
     `username`           VARCHAR(40) NOT NULL,
     `id`                 VARCHAR(40) NOT NULL UNIQUE,
-    `password`           VARCHAR(40) NOT NULL,
+    `password`           VARCHAR(255) NOT NULL,
     `nickname`           VARCHAR(40) NOT NULL UNIQUE,
-    `email`              VARCHAR(40) NOT NULL,
+    `email`              VARCHAR(255) NOT NULL,
     `created_date`       DATETIME,
     `last_modified_date` DATETIME
 );
