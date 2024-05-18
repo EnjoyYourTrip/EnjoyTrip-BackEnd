@@ -1,6 +1,7 @@
 package com.ssafy.enjoytrip.domain.member.mapper;
 
 import com.ssafy.enjoytrip.domain.member.model.Member;
+import com.ssafy.enjoytrip.domain.member.model.dto.LoginRequest;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -10,7 +11,7 @@ public interface MemberMapper {
 
     void insertMember(Member member); // 회원가입
 
-    Member login(Member member); // 로그인
+    Member login(String id); // 로그인
 
     void logout(Long memberId); // 로그아웃
 

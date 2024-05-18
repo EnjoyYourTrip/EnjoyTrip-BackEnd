@@ -2,13 +2,14 @@ package com.ssafy.enjoytrip.domain.member.service;
 
 
 import com.ssafy.enjoytrip.domain.member.model.Member;
+import com.ssafy.enjoytrip.domain.member.model.dto.LoginRequest;
 
 import java.util.List;
 
 public interface MemberService {
     void insertMember(Member member); // 회원가입
 
-    Member login(Member member); // 로그인
+    Member login(LoginRequest loginRequest); // 로그인
 
     void logout(Long memberId); // 로그아웃
 

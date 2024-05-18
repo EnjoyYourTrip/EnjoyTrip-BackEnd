@@ -2,10 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ssafy.enjoytrip.domain.member.mapper.MemberMapper">
 
-    <select id="login" parameterType="Member" resultType="Member">
+    <select id="login" parameterType="String" resultType="Member">
         SELECT member_id, username, id, password, nickname, email, created_date, last_modified_date
         FROM members
-        WHERE id=#{id} and password=#{password};
+        WHERE id = #{id};
     </select>
 
     <select id="userInfo" parameterType="Long" resultType="Member">

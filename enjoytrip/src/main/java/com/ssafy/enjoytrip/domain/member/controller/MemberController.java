@@ -1,6 +1,7 @@
 package com.ssafy.enjoytrip.domain.member.controller;
 
 import com.ssafy.enjoytrip.domain.member.model.Member;
+import com.ssafy.enjoytrip.domain.member.model.dto.LoginRequest;
 import com.ssafy.enjoytrip.domain.member.service.MemberService;
 import com.ssafy.enjoytrip.util.ApiResponse;
 import lombok.RequiredArgsConstructor;
@@ -17,9 +18,9 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/login")
-    public ApiResponse<?> login(@RequestBody Member member) {
+    public ApiResponse<?> login(@RequestBody LoginRequest loginRequest) {
         try {
-            Member findMember = memberService.login(member);
+            Member findMember = memberService.login(loginRequest);
             if (findMember == null) {
                 return ApiResponse.createFail("아이디와 비밀번호를 다시 확인해 주세요.");
             }
