@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.*;
 @RequiredArgsConstructor
 public class WebConfiguration implements WebMvcConfigurer {
 
-    private final JWTInterceptor jwtInterceptor;
+//    private final JWTInterceptor jwtInterceptor;
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
@@ -27,9 +27,9 @@ public class WebConfiguration implements WebMvcConfigurer {
     // 인터셉터 설정
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(jwtInterceptor)
-                .addPathPatterns("/api/**") // JWT 검증이 필요한 경로 패턴 지정
-                .excludePathPatterns("/api/auth/**"); // JWT 검증이 필요 없는 경로 패턴 지정 (예: 로그인, 회원가입)
+//        registry.addInterceptor(jwtInterceptor)
+//                .addPathPatterns("/api/**") // JWT 검증이 필요한 경로 패턴 지정
+//                .excludePathPatterns("/api/auth/**"); // JWT 검증이 필요 없는 경로 패턴 지정 (예: 로그인, 회원가입)
     }
 
     // 정적 자원 핸들링
