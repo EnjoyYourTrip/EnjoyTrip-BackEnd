@@ -8,6 +8,7 @@ CREATE TABLE `members`
     `password`           VARCHAR(255) NOT NULL,
     `nickname`           VARCHAR(40) NOT NULL UNIQUE,
     `email`              VARCHAR(255) NOT NULL,
+    `token` VARCHAR(1000) NULL DEFAULT NULL,
     `created_date`       DATETIME,
     `last_modified_date` DATETIME
 );
