@@ -27,13 +27,13 @@ public class JWTUtil {
     @Value("${jwt.refresh-token.expiretime}")
     private long refreshTokenExpireTime;
 
-    public String createAccessToken(String userId) { // AccessToken 생성
-        return create(userId, "access-token", accessTokenExpireTime);
+    public String createAccessToken(Long memberId) { // AccessToken 생성
+        return create(memberId, "access-token", accessTokenExpireTime);
     }
 
     // RefreshToken 생성 (유효기간이 AccessToken 보다 더 길게 설정됨)
-    public String createRefreshToken(String userId) {
-        return create(userId, "refresh-token", refreshTokenExpireTime);
+    public String createRefreshToken(Long memberId) {
+        return create(memberId, "refresh-token", refreshTokenExpireTime);
     }
 
     //	Token 발급
@@ -46,26 +46,27 @@ public class JWTUtil {
     /**
      * 토큰 발급 메서드
      *
-     * @param userId     유저 아이디
+     * @param memberId   유저 아이디
      * @param subject    토큰 제목
      * @param expireTime 토큰 유효기간
      * @return 생성된 JWT 토큰
      */
-    private String create(String userId, String subject, long expireTime) {
+    private String create(Long memberId, String subject, long expireTime) {
         // Payload 설정 : 생성일 (IssuedAt), 유효기간 (Expiration), 토큰 제목 (Subject), 데이터 (Claim) 등 정보 세팅.
         Claims claims = Jwts.claims()
                 .setSubject(subject) //  // 토큰 제목 설정 (ex: access-token, refresh-token)
                 .setIssuedAt(new Date()) // 생성일 설정
                 .setExpiration(new Date(System.currentTimeMillis() + expireTime));// 만료일 설정 (유효기간)
 
-        // 데이터 저장 (key: "userId", value: userId)
-        claims.put("userId", userId);
+        // 데이터 저장 (key: "memberId", value: memberId)
+        claims.put("memberId", memberId);
 
         String jwt = Jwts.builder()
                 .setHeaderParam("typ", "JWT") // Header 설정 : 토큰의 타입, 해쉬 알고리즘 정보 세팅.
                 .setClaims(claims) // Payload 설정
                 .signWith(SignatureAlgorithm.HS256, this.generateKey()) // Signature 설정 : secret key를 활용한 암호화.
                 .compact(); // 직렬화 처리.
+        log.debug("Generated JWT for memberId {}: {}", memberId, jwt); // 로그 추가
 
         return jwt;
     }
@@ -98,6 +99,8 @@ public class JWTUtil {
      */
     public boolean checkToken(String token) {
         try {
+            log.debug("Token to be verified: {}", token); // 로그 추가
+
 //			Json Web Signature? 서버에서 인증을 근거로 인증 정보를 서버의 private key 서명 한것을 토큰화 한것
 //			setSigningKey : JWS 서명 검증을 위한  secret key 세팅
 //			parseClaimsJws : 파싱하여 원본 jws 만들기
@@ -112,18 +115,22 @@ public class JWTUtil {
             log.debug("claims: {}", claims);
             return true;
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error("Invalid token: {}", e.getMessage());
             return false;
         }
     }
 
     /**
-     * 토큰에서 userId 추출
+     * 토큰에서 memberId 추출
      *
      * @param authorization JWT 토큰
-     * @return 추출된 userId
+     * @return 추출된 memberId
      */
-    public String getUserId(String authorization) {
+    public Long getMemberId(String authorization) {
+        if (authorization.startsWith("Bearer ")) {
+            authorization = authorization.substring(7); // "Bearer " 부분 제거
+        }
+
         Jws<Claims> claims = null;
         try {
             // JWT 토큰 파싱 및 검증
@@ -133,14 +140,14 @@ public class JWTUtil {
                     .build()
                     .parseClaimsJws(authorization);
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error("Failed to parse token: {}", e.getMessage());
             throw new UnAuthorizedException();
         }
 
         // Claims 는 Map 구현체 형태
         Map<String, Object> value = claims.getBody();
         log.info("value : {}", value);
-        return (String) value.get("userId");
+        return ((Number) value.get("memberId")).longValue();
     }
 
 }

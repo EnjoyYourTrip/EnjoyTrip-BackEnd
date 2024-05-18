@@ -45,11 +45,6 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public void logout(Long memberId) {
-        // 추후 jwt로 로그아웃
-    }
-
-    @Override
     @Transactional(readOnly = true)
     public Member userInfo(Long memberId) {
         return memberMapper.userInfo(memberId);
@@ -73,12 +68,22 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public int idCheck(String id) {
+    public int findPassword(Member member) {
         return 0;
     }
 
     @Override
-    public int findPassword(Member member) {
-        return 0;
+    public void saveRefreshToken(Long memberId, String refreshToken) {
+        memberMapper.saveRefreshToken(memberId, refreshToken);
+    }
+
+    @Override
+    public String getRefreshToken(Long memberId) {
+        return memberMapper.getRefreshToken(memberId);
+    }
+
+    @Override
+    public void deleteRefreshToken(Long memberId) {
+        memberMapper.deleteRefreshToken(memberId, null);
     }
 }

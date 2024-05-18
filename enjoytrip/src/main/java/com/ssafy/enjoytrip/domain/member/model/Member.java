@@ -14,6 +14,8 @@ public class Member extends BaseTimeEntity {
     private String nickname;
     private String email;
     private Role role;
+    private String refreshToken;
+
 
     private Member(String username, String id, String password, String nickname, String email) {
         this.username = username;

@@ -46,10 +46,28 @@
         WHERE member_id = #{memberId}
     </delete>
 
-    <select id="idCheck" parameterType="Long" resultType="int">
+    <select id="idCheck" parameterType="String" resultType="int">
         select count(memberId)
         from members
         where member_id = #{memberId}
     </select>
+
+    <update id="saveRefreshToken" parameterType="map">
+        update members
+        set token = #{token}
+        where member_id = #{memberId}
+    </update>
+
+    <select id="getRefreshToken" parameterType="Long" resultType="String">
+        select token
+        from members
+        where member_id = #{memberId}
+    </select>
+
+    <update id="deleteRefreshToken" parameterType="map">
+        update members
+        set token = #{token, jdbcType=VARCHAR}
+        where member_id = #{memberId}
+    </update>
 
 </mapper>

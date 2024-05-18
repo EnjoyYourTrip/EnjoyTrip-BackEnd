@@ -11,13 +11,9 @@ public interface MemberService {
 
     Member login(LoginRequest loginRequest); // 로그인
 
-    void logout(Long memberId); // 로그아웃
-
     Member userInfo(Long memberId); // 회원 상세 정보 조회
 
     void updateMember(Member member); // 회원 정보 수정
-
-    int idCheck(String id); // 아이디 중복검사
 
     int findPassword(Member member);// 비밀번호 찾기
 
@@ -28,4 +24,12 @@ public interface MemberService {
 
     void deleteMember(Long memberId); // 회원 정보 삭제
 
+    /**
+     * JWT
+     */
+    void saveRefreshToken(Long memberId, String refreshToken);
+
+    String getRefreshToken(Long memberId);
+
+    void deleteRefreshToken(Long memberId);
 }
