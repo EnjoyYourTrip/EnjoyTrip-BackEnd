@@ -50,7 +50,7 @@ public class InitDb {
 
         public void questionInit() {
             for (int i = 2; i <= 6; i++) {
-                for (int j = 1; j <= 5; j++) {
+                for (int j = 1; j <= 100; j++) {
                     Question question = Question.createQuestion(i + "가 쓴 질문제목" + j, "질문내용", Long.parseLong(String.valueOf(i)));
                     questionService.insertQuestion(question);
                 }
