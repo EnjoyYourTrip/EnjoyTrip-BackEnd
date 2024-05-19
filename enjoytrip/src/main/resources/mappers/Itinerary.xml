@@ -13,8 +13,8 @@
 
     <!-- 여행계획 작성 -->
     <insert id="insertItinerary" parameterType="Itinerary" useGeneratedKeys="true" keyProperty="itineraryId">
-        INSERT INTO itinerary (title, content, start_date, end_date, member_id, created_date, last_modified_date)
-        VALUES (#{title}, #{content}, #{startDate}, #{endDate}, #{memberId}, #{createdDate}, #{lastModifiedDate})
+        INSERT INTO itinerary (title, content, start_date, end_date, member_id)
+        VALUES (#{title}, #{content}, #{startDate}, #{endDate}, #{memberId})
     </insert>
 
     <!-- 여행계획 삭제  -->
@@ -31,13 +31,13 @@
 
     <!-- 여행계획 목록 -->
     <select id="getItineraryList" resultType="Itinerary">
-        SELECT itinerary_id, title, content, start_date, end_date, member_id, created_date, last_modified_date
+        SELECT itinerary_id, title, content, start_date, end_date, member_id
         FROM itinerary
     </select>
 
     <!-- 회원 여행계획 목록 -->
     <select id="findItineraryList" parameterType="Long" resultType="Itinerary">
-        SELECT itinerary_id, title, content, start_date, end_date, member_id, created_date, last_modified_date
+        SELECT itinerary_id, title, content, start_date, end_date, member_id
         FROM itinerary
         where member_id = #{memberId}
     </select>

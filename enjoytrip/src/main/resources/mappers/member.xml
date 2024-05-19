@@ -3,7 +3,7 @@
 <mapper namespace="com.ssafy.enjoytrip.domain.member.mapper.MemberMapper">
 
     <select id="login" parameterType="String" resultType="Member">
-        SELECT member_id, username, id, password, nickname, email, created_date, last_modified_date
+        SELECT member_id, username, id, nickname, email
         FROM members
         WHERE id = #{id};
     </select>
@@ -21,18 +21,18 @@
     </select>
 
     <insert id="insertMember" parameterType="Member" useGeneratedKeys="true" keyProperty="memberId">
-        INSERT INTO members (username, id, password, nickname, email, created_date, last_modified_date)
-        VALUES (#{username}, #{id}, #{password}, #{nickname}, #{email}, #{createdDate}, #{lastModifiedDate})
+        INSERT INTO members (username, id, password, nickname, email)
+        VALUES (#{username}, #{id}, #{password}, #{nickname}, #{email})
     </insert>
 
     <insert id="insertRole" parameterType="Long">
-        INSERT INTO roles (member_id, created_date, last_modified_date)
-        VALUES (#{memberId}, now(), now())
+        INSERT INTO roles (member_id)
+        VALUES (#{memberId})
     </insert>
 
     <update id="updateMember" parameterType="Member">
         UPDATE members
-        SET password = #{password}, nickname = #{nickname}, email = #{email}, last_modified_date = #{lastModifiedDate}
+        SET password = #{password}, nickname = #{nickname}, email = #{email}
         where member_id = #{memberId}
     </update>
 

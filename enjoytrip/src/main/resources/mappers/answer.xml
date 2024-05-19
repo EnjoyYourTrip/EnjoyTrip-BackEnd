@@ -7,8 +7,8 @@
     </select>
 
     <insert id="insertAnswer" parameterType="Answer" useGeneratedKeys="true" keyProperty="answerId">
-        INSERT INTO answer (question_id, member_id, content, created_date, last_modified_date)
-        VALUES (#{questionId}, #{memberId}, #{content}, #{createdDate}, #{lastModifiedDate})
+        INSERT INTO answer (question_id, member_id, content)
+        VALUES (#{questionId}, #{memberId}, #{content})
     </insert>
 
     <delete id="deleteAnswer" parameterType="Long">
@@ -17,7 +17,7 @@
 
     <update id="updateAnswer" parameterType="Answer">
         UPDATE answer
-        SET content = #{content}, last_modified_date = #{lastModifiedDate}
+        SET content = #{content}
         WHERE answer_id = #{answerId}
     </update>
 
