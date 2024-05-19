@@ -3,7 +3,7 @@
 <mapper namespace="com.ssafy.enjoytrip.domain.member.mapper.MemberMapper">
 
     <select id="login" parameterType="String" resultType="Member">
-        SELECT member_id, username, id, nickname, email
+        SELECT member_id, username, id, password, nickname, email
         FROM members
         WHERE id = #{id};
     </select>
