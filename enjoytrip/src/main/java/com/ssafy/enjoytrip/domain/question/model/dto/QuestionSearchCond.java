@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SearchCondition {
+public class QuestionSearchCond {
     private String title; // 검색할 제목
     private String content; // 검색할 내용
     private String order; // 정렬할 기준
