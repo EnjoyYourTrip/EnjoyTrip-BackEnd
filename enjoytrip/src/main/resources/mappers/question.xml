@@ -2,10 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ssafy.enjoytrip.domain.question.mapper.QuestionMapper">
 
-    <!-- 전체질문 조회 -->
-    <select id="listQuestion" resultType="Question">
-        SELECT *
+    <!-- 전체 질문 개수 조회 -->
+    <select id="countQuestions" resultType="int">
+        SELECT COUNT(*)
         FROM question;
+    </select>
+
+    <!-- 전체질문 조회 -->
+    <select id="listQuestion" parameterType="PageRequestParam" resultType="QuestionInfo">
+        SELECT q.question_id, m.nickname, q.title, q.hit, q.has_response , q.created_date, q.last_modified_date
+        FROM question q
+        JOIN members m ON q.member_id = m.member_id
+        ORDER BY question_id ASC
+        LIMIT #{pageRequest.offset}, #{pageRequest.limit};
     </select>
 
     <!-- 상세질문 조회 -->
@@ -42,7 +51,7 @@
     </update>
 
     <!-- 질문 검색 -->
-    <select id="searchQuestion" parameterType="SearchCondition" resultType="Question">
+    <select id="searchQuestion" parameterType="QuestionSearchCond" resultType="Question">
         SELECT * FROM question
         <trim prefix="WHERE" prefixOverrides="AND">
             <if test="title != null">

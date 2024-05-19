@@ -1,13 +1,16 @@
 package com.ssafy.enjoytrip.domain.question.service;
 
+import com.ssafy.enjoytrip.domain.page.model.PageRequestParam;
 import com.ssafy.enjoytrip.domain.question.mapper.QuestionMapper;
 import com.ssafy.enjoytrip.domain.question.model.Question;
-import com.ssafy.enjoytrip.domain.question.model.dto.SearchCondition;
+import com.ssafy.enjoytrip.domain.question.model.dto.QuestionInfo;
+import com.ssafy.enjoytrip.domain.question.model.dto.QuestionSearchCond;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
 
 @Service
 @RequiredArgsConstructor
@@ -16,8 +19,8 @@ public class QuestionServiceImpl implements QuestionService {
     private final QuestionMapper questionMapper;
 
     @Override
-    public List<Question> listQuestion() {
-        return questionMapper.listQuestion();
+    public List<QuestionInfo> listQuestion(PageRequestParam<Void> pageRequestParam) {
+        return questionMapper.listQuestion(pageRequestParam);
     }
 
     @Override
@@ -46,7 +49,12 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public List<Question> searchQuestion(SearchCondition searchCondition) {
-        return questionMapper.searchQuestion(searchCondition);
+    public List<Question> searchQuestion(QuestionSearchCond questionSearchCond) {
+        return questionMapper.searchQuestion(questionSearchCond);
+    }
+
+    @Override
+    public int countQuestions() {
+        return questionMapper.countQuestions(); // 전체 질문 개수 조회
     }
 }

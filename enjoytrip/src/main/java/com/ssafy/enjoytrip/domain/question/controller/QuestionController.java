@@ -1,7 +1,11 @@
 package com.ssafy.enjoytrip.domain.question.controller;
 
+import com.ssafy.enjoytrip.domain.page.model.PageRequest;
+import com.ssafy.enjoytrip.domain.page.model.PageRequestParam;
 import com.ssafy.enjoytrip.domain.question.model.Question;
-import com.ssafy.enjoytrip.domain.question.model.dto.SearchCondition;
+import com.ssafy.enjoytrip.domain.question.model.dto.QuestionInfo;
+import com.ssafy.enjoytrip.domain.question.model.dto.QuestionListResponse;
+import com.ssafy.enjoytrip.domain.question.model.dto.QuestionSearchCond;
 import com.ssafy.enjoytrip.domain.question.service.QuestionService;
 import com.ssafy.enjoytrip.util.ApiResponse;
 import lombok.RequiredArgsConstructor;
@@ -19,10 +23,21 @@ public class QuestionController {
     private final QuestionService questionService;
 
     @GetMapping("")
-    public ApiResponse<?> listQuestions() {
+    public ApiResponse<?> listQuestions(PageRequest pageRequest) {
         try {
-            List<Question> questions = questionService.listQuestion();
-            return ApiResponse.createSuccess(questions);
+            int totalQuestions = questionService.countQuestions(); // 전체 질문 개수 조회
+            int totalPages = (int) Math.ceil((double) totalQuestions / pageRequest.getSize()); // 전체 페이지 수 계산
+
+            // 현재 페이지가 유효한지 확인
+            if (pageRequest.getPage() > totalPages) {
+                return ApiResponse.createError("페이지 초과"); // 페이지 초과 에러
+            }
+
+            PageRequestParam<Void> pageRequestParam = new PageRequestParam<>(pageRequest, null);
+            List<QuestionInfo> questions = questionService.listQuestion(pageRequestParam);
+            QuestionListResponse response = new QuestionListResponse(questions, totalPages, pageRequest.getPage());
+
+            return ApiResponse.createSuccess(response);
         } catch (Exception e) {
             log.error("Failed to retrieve questions", e);
             return ApiResponse.createError("질문글 목록 조회 실패");
@@ -78,7 +93,7 @@ public class QuestionController {
     }
 
     @GetMapping("/search")
-    public ApiResponse<?> searchQuestions(@ModelAttribute SearchCondition condition) {
+    public ApiResponse<?> searchQuestions(@ModelAttribute QuestionSearchCond condition) {
         try {
             List<Question> questions = questionService.searchQuestion(condition);
             return ApiResponse.createSuccess(questions);

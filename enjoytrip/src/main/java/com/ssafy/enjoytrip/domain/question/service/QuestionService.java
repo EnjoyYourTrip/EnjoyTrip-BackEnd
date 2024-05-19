@@ -1,12 +1,14 @@
 package com.ssafy.enjoytrip.domain.question.service;
 
+import com.ssafy.enjoytrip.domain.page.model.PageRequestParam;
 import com.ssafy.enjoytrip.domain.question.model.Question;
-import com.ssafy.enjoytrip.domain.question.model.dto.SearchCondition;
+import com.ssafy.enjoytrip.domain.question.model.dto.QuestionInfo;
+import com.ssafy.enjoytrip.domain.question.model.dto.QuestionSearchCond;
 
 import java.util.List;
 
 public interface QuestionService {
-    List<Question> listQuestion();
+    List<QuestionInfo> listQuestion(PageRequestParam<Void> pageRequestParam);
 
     Question questionInfo(Long questionId);
 
@@ -16,5 +18,8 @@ public interface QuestionService {
 
     void updateQuestion(Question question);
 
-    List<Question> searchQuestion(SearchCondition searchCondition);
+    List<Question> searchQuestion(QuestionSearchCond questionSearchCond);
+
+    int countQuestions();
+
 }
