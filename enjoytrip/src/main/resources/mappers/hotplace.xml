@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.enjoytrip.domain.hotplace.mapper.HotPlaceMapper">
+
+    <resultMap type="HotPlace" id="hotplace">
+        <result column="hotplace_id" property="hotplaceId"/>
+        <result column="member_id" property="memberId"/>
+        <result column="username" property="username"/>
+        <result column="title" property="title"/>
+        <result column="content" property="content"/>
+        <result column="address" property="address"/>
+        <result column="created_date" property="createdDate"/>
+        <result column="heart" property="heart"/>
+        <result column="save_folder" property="saveFolder"/>
+        <result column="original_file" property="originalFile"/>
+        <result column="save_file" property="saveFile"/>
+    </resultMap>
+
+    <insert id="write" parameterType="HotPlace" useGeneratedKeys="true" keyProperty="hotplaceId">
+        INSERT INTO hotplace (member_id, title, content, address, save_folder, original_file, save_file)
+        VALUES (#{memberId}, #{title}, #{content}, #{address}, #{saveFolder}, #{originalFile}, #{saveFile})
+    </insert>
+
+    <update id="writeFile" parameterType="map">
+        UPDATE hotplace
+        SET save_folder = #{saveFolder}, original_file = #{originalFile}, save_file = #{saveFile}
+        WHERE hotplace_id = #{hotplaceId}
+    </update>
+
+    <sql id="search">
+        <if test="word != null and word != ''">
+            AND ${key} LIKE CONCAT('%', #{word}, '%')
+        </if>
+        <if test="sort != null and sort != 'created_date'">
+            ORDER BY ${sort} DESC
+        </if>
+        <if test="sort != null and sort == 'created_date'">
+            ORDER BY date
+        </if>
+    </sql>
+
+    <select id="hotPlaceList" parameterType="map" resultMap="hotplace">
+        SELECT hotplace_id, member_id, title, content, address, heart, save_folder, original_file, save_file, created_date
+        FROM hotplace
+        <where>
+            <include refid="search"></include>
+        </where>
+        ORDER BY heart DESC, title
+        LIMIT #{start}, #{listsize}
+    </select>
+
+    <select id="getTotalCount" parameterType="map" resultType="int">
+        SELECT COUNT(hotplace_id)
+        FROM hotplace
+        <where>
+            <include refid="search"></include>
+        </where>
+    </select>
+
+    <select id="hotplaceTOP3" parameterType="String" resultMap="hotplace">
+        SELECT hotplace_id, member_id, title, content, address, heart, save_folder, original_file, save_file, created_date
+        FROM hotplace
+        ORDER BY heart DESC
+        LIMIT 3
+    </select>
+
+    <select id="detail" parameterType="Long" resultMap="hotplace">
+        SELECT hotplace_id, member_id, title, content, address, heart, save_folder, original_file, save_file, created_date
+        FROM hotplace
+        WHERE hotplace_id = #{hotplaceId}
+    </select>
+
+    <delete id="delete" parameterType="Long">
+        DELETE FROM hotplace
+        WHERE hotplace_id = #{hotplaceId}
+    </delete>
+
+    <update id="modify" parameterType="HotPlace">
+        UPDATE hotplace
+        SET title = #{title}, content = #{content}, address=#{address}, save_folder = #{saveFolder}, original_file =
+        #{originalFile}, save_file = #{saveFile}
+        WHERE hotplace_id = #{hotplaceId}
+    </update>
+
+    <select id="getHeartCount" parameterType="Long" resultType="int">
+        SELECT heart
+        FROM hotplace
+        WHERE hotplace_id=#{hotplaceId}
+    </select>
+
+    <select id="getMyHeartList" parameterType="Long" resultType="int">
+        SELECT distinct hotplace_id
+        FROM heart_hotplace
+        WHERE member_id = #{memberId}
+    </select>
+
+    <select id="checkHeart" parameterType="map" resultType="int">
+        SELECT COUNT(member_id) FROM heart_hotplace
+        WHERE hotplace_id = #{hotplaceId} AND member_id = #{memberId}
+    </select>
+
+    <update id="increaseHeartCount" parameterType="Long">
+        UPDATE hotplace
+        SET heart = heart + 1
+        WHERE hotplace_id = #{hotplaceId}
+    </update>
+
+    <update id="decreaseHeartCount" parameterType="Long">
+        UPDATE hotplace
+        SET heart = heart - 1
+        WHERE hotplace_id = #{hotplaceId}
+    </update>
+
+    <insert id="insertHeartHotPlace" parameterType="map">
+        INSERT INTO heart_hotplace (hotplace_id, member_id)
+        VALUES (#{hotplaceId}, #{memberId})
+    </insert>
+
+    <delete id="deleteHeartHotPlace" parameterType="map">
+        DELETE FROM heart_hotplace
+        WHERE hotplace_id = #{hotplaceId} AND member_id = #{memberId}
+    </delete>
+</mapper>
