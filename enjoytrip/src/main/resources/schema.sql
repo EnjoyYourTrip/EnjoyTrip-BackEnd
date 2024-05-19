@@ -9,8 +9,8 @@ CREATE TABLE `members`
     `nickname`           VARCHAR(40) NOT NULL UNIQUE,
     `email`              VARCHAR(255) NOT NULL,
     `token` VARCHAR(1000) NULL DEFAULT NULL,
-    `created_date`       DATETIME,
-    `last_modified_date` DATETIME
+    `created_date`       DATETIME DEFAULT CURRENT_TIMESTAMP,
+    `last_modified_date` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 CREATE TABLE `roles`
@@ -18,9 +18,7 @@ CREATE TABLE `roles`
     `role_id`            BIGINT AUTO_INCREMENT PRIMARY KEY,
     `member_id`          BIGINT      NOT NULL,
     `role_name`          VARCHAR(20) NOT NULL DEFAULT 'USER' CHECK (role_name IN ('ADMIN', 'USER')),
-    `created_date`       DATETIME,
-    `last_modified_date` DATETIME,
-    FOREIGN KEY (`member_id`) REFERENCES `members` (`member_id`)
+    FOREIGN KEY (`member_id`) REFERENCES `members` (`member_id`) ON DELETE CASCADE
 );
 
 CREATE TABLE `hotplace`
@@ -33,9 +31,9 @@ CREATE TABLE `hotplace`
     `hit`                INT            NOT NULL,
     `heart`              INT            NOT NULL,
     `member_id`          BIGINT         NOT NULL,
-    `created_date`       DATETIME,
-    `last_modified_date` DATETIME,
-    FOREIGN KEY (`member_id`) REFERENCES `members` (`member_id`)
+    `created_date`       DATETIME DEFAULT CURRENT_TIMESTAMP,
+    `last_modified_date` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (`member_id`) REFERENCES `members` (`member_id`) ON DELETE CASCADE
 );
 
 CREATE TABLE `comment`
@@ -44,10 +42,10 @@ CREATE TABLE `comment`
     `member_id`          BIGINT       NOT NULL,
     `hotplace_id`        BIGINT       NOT NULL,
     `content`            VARCHAR(255) NOT NULL,
-    `created_date`       DATETIME,
-    `last_modified_date` DATETIME,
-    FOREIGN KEY (`member_id`) REFERENCES `members` (`member_id`),
-    FOREIGN KEY (`hotplace_id`) REFERENCES `hotplace` (`hotplace_id`)
+    `created_date`       DATETIME DEFAULT CURRENT_TIMESTAMP,
+    `last_modified_date` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (`member_id`) REFERENCES `members` (`member_id`) ON DELETE CASCADE,
+    FOREIGN KEY (`hotplace_id`) REFERENCES `hotplace` (`hotplace_id`) ON DELETE CASCADE
 );
 
 CREATE TABLE `itinerary`
@@ -58,9 +56,9 @@ CREATE TABLE `itinerary`
     `title`              VARCHAR(40) NOT NULL,
     `content`            TEXT        NOT NULL,
     `member_id`          BIGINT      NOT NULL,
-    `created_date`       DATETIME,
-    `last_modified_date` DATETIME,
-    FOREIGN KEY (`member_id`) REFERENCES `members` (`member_id`)
+    `created_date`       DATETIME DEFAULT CURRENT_TIMESTAMP,
+    `last_modified_date` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (`member_id`) REFERENCES `members` (`member_id`) ON DELETE CASCADE
 );
 
 CREATE TABLE `itinerary_detail`
@@ -69,7 +67,7 @@ CREATE TABLE `itinerary_detail`
     `itinerary_order`     INT    NOT NULL,
     `itinerary_id`        BIGINT NOT NULL,
     `content_id`          INT    NOT NULL,
-    FOREIGN KEY (`itinerary_id`) REFERENCES `itinerary` (`itinerary_id`)
+    FOREIGN KEY (`itinerary_id`) REFERENCES `itinerary` (`itinerary_id`) ON DELETE CASCADE
 );
 
 CREATE TABLE `question`
@@ -80,9 +78,9 @@ CREATE TABLE `question`
     `hit`                INT                   DEFAULT 0,
     `has_response`       BOOLEAN      NOT NULL DEFAULT false,
     `member_id`          BIGINT       NOT NULL,
-    `created_date`       DATETIME,
-    `last_modified_date` DATETIME,
-    FOREIGN KEY (`member_id`) REFERENCES `members` (`member_id`)
+    `created_date`       DATETIME DEFAULT CURRENT_TIMESTAMP,
+    `last_modified_date` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (`member_id`) REFERENCES `members` (`member_id`) ON DELETE CASCADE
 );
 
 CREATE TABLE `answer`
@@ -91,8 +89,8 @@ CREATE TABLE `answer`
     `question_id`        BIGINT       NOT NULL,
     `member_id`          BIGINT       NOT NULL,
     `content`            VARCHAR(255) NOT NULL,
-    `created_date`       DATETIME,
-    `last_modified_date` DATETIME,
-    FOREIGN KEY (`question_id`) REFERENCES `question` (`question_id`),
-    FOREIGN KEY (`member_id`) REFERENCES `members` (`member_id`)
+    `created_date`       DATETIME DEFAULT CURRENT_TIMESTAMP,
+    `last_modified_date` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (`question_id`) REFERENCES `question` (`question_id`) ON DELETE CASCADE,
+    FOREIGN KEY (`member_id`) REFERENCES `members` (`member_id`) ON DELETE CASCADE
 );
