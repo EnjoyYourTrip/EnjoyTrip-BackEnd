@@ -9,15 +9,4 @@ import lombok.*;
 public class LoginResponse {
     private String accessToken;
     private String refreshToken;
-    private User user;
-
-    @Getter
-    @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class User {
-        private Long memberId;
-        private String username;
-        private String email;
-    }
 }

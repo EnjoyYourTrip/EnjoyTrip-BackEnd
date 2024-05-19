@@ -37,13 +37,7 @@ public class MemberController {
             // 발급받은 refresh token 을 DB에 저장.
             memberService.saveRefreshToken(findMember.getMemberId(), refreshToken);
 
-            LoginResponse.User user = new LoginResponse.User(
-                    findMember.getMemberId(),
-                    findMember.getUsername(),
-                    findMember.getEmail()
-            );
-
-            return ApiResponse.createSuccess(new LoginResponse(accessToken, refreshToken, user), "로그인 성공");
+            return ApiResponse.createSuccess(new LoginResponse(accessToken, refreshToken), "로그인 성공");
         } catch (Exception e) {
             log.error(e.getMessage());
             return ApiResponse.createError("로그인 에러 발생");
@@ -149,8 +143,8 @@ public class MemberController {
                 String accessToken = jwtUtil.createAccessToken(memberId);
                 log.debug("token : {}", accessToken);
                 log.debug("정상적으로 access token 재발급!!!");
-                return ApiResponse.createSuccess(accessToken,"access token 생성");
-            }else {
+                return ApiResponse.createSuccess(accessToken, "access token 생성");
+            } else {
                 return ApiResponse.createFail("회원 정보와 refresh token 일치 하지 않음!");
             }
         } else {
