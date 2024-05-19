@@ -1,10 +1,14 @@
 package com.ssafy.enjoytrip.config;
 
+import com.ssafy.enjoytrip.domain.page.model.MySQLPageRequestHandleMethodArgumentResolver;
 import com.ssafy.enjoytrip.interceptor.JWTInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.*;
+
+import java.util.List;
 
 @Configuration
 @EnableWebMvc
@@ -41,4 +45,9 @@ public class WebConfiguration implements WebMvcConfigurer {
                 .addResourceLocations("classpath:/static/"); // 정적 자원의 실제 위치
     }
 
+    @Override
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+        // 페이지 리졸버 등록
+        resolvers.add(new MySQLPageRequestHandleMethodArgumentResolver());
+    }
 }
