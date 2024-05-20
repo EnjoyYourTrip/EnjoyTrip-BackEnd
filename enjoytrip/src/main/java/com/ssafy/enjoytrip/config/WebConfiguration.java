@@ -43,6 +43,8 @@ public class WebConfiguration implements WebMvcConfigurer {
                 .addResourceLocations("classpath:/static/assets/img/"); // 정적 자원의 실제 위치
         registry.addResourceHandler("/*.html**") // 모든 HTML 파일에 대해 자원 핸들링
                 .addResourceLocations("classpath:/static/"); // 정적 자원의 실제 위치
+        registry.addResourceHandler("/uploads/**") // /uploads/ 경로로 요청되는 자원 핸들링(파일 업로드)
+                .addResourceLocations("file:///C:/Users/trip-helper/upload/"); // 정적 자원의 실제 위치
     }
 
     @Override
