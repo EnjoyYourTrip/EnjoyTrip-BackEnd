@@ -10,12 +10,12 @@ import lombok.Setter;
 @NoArgsConstructor
 public class HotPlace extends BaseTimeEntity {
     private Long hotplaceId;
-    private String memberId;
+    private Long memberId;
     private String title;
     private String content;
     private String address;
     private String username;
-    private int recommendation;
+    private int heart;
     private String saveFolder;
     private String originalFile;
     private String saveFile;
