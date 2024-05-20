@@ -47,7 +47,7 @@ public class HotPlaceController {
     // 핫플레이스에 맞는 파일 등록
     @PostMapping("/write/file")
     public ApiResponse<?> writeFile(@RequestParam("hotplaceId") Long hotplaceId,
-                                    @RequestParam("uploadfile") MultipartFile file) {
+                                    @RequestParam("uploadFile") MultipartFile file) {
         log.debug("write hotplaceDto : {}", file);
         try {
             log.debug("MultipartFile.isEmpty : {}", file.isEmpty());
@@ -190,7 +190,7 @@ public class HotPlaceController {
         }
     }
 
-    // 좋아요 누른 pk들 조회
+    // 찜 누른 pk들 조회
     @GetMapping("/myHeart/{memberId}")
     public ApiResponse<?> getMyHeart(@PathVariable Long memberId) {
         try {
