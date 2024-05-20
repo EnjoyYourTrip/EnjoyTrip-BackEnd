@@ -28,7 +28,7 @@ CREATE TABLE `hotplace`
     `title`              VARCHAR(100) NOT NULL,
     `content`            VARCHAR(255) NOT NULL,
     `address`            VARCHAR(200) NOT NULL,
-    `heart`              INT         DEFAULT '0',
+    `heart`              INT         DEFAULT 0,
     `save_folder`        VARCHAR(45) DEFAULT NULL,
     `original_file`      VARCHAR(50) DEFAULT NULL,
     `save_file`          VARCHAR(50) DEFAULT NULL,
