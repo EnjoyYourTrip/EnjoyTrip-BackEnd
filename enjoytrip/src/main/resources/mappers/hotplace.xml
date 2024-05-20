@@ -43,7 +43,7 @@
         SELECT hotplace_id, member_id, title, content, address, heart, save_folder, original_file, save_file, created_date
         FROM hotplace
         <where>
-            <include refid="search"></include>
+            <include refid="search"/>
         </where>
         ORDER BY heart DESC, title
         LIMIT #{start}, #{listsize}
@@ -53,7 +53,7 @@
         SELECT COUNT(hotplace_id)
         FROM hotplace
         <where>
-            <include refid="search"></include>
+            <include refid="search"/>
         </where>
     </select>
 
@@ -88,7 +88,7 @@
         WHERE hotplace_id=#{hotplaceId}
     </select>
 
-    <select id="getMyHeartList" parameterType="Long" resultType="int">
+    <select id="getMyHeartList" parameterType="Long" resultType="Long">
         SELECT distinct hotplace_id
         FROM heart_hotplace
         WHERE member_id = #{memberId}
