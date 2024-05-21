@@ -7,7 +7,7 @@ CREATE TABLE `members`
     `id`                         VARCHAR(40)  NOT NULL UNIQUE,
     `password`                   VARCHAR(255) NOT NULL,
     `nickname`                   VARCHAR(40)  NOT NULL UNIQUE,
-    `email`                      VARCHAR(255) NOT NULL,
+    `email`                      VARCHAR(255) NOT NULL UNIQUE,
     `token`                      VARCHAR(1000) NULL,
     `password_token`             VARCHAR(1000) NULL,
     `password_token_expiry_date` DATETIME NULL,
