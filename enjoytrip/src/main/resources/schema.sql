@@ -2,15 +2,17 @@ DROP TABLE IF EXISTS members, roles, question, answer, itinerary, itinerary_deta
 
 CREATE TABLE `members`
 (
-    `member_id`          BIGINT AUTO_INCREMENT PRIMARY KEY,
-    `username`           VARCHAR(40)  NOT NULL,
-    `id`                 VARCHAR(40)  NOT NULL UNIQUE,
-    `password`           VARCHAR(255) NOT NULL,
-    `nickname`           VARCHAR(40)  NOT NULL UNIQUE,
-    `email`              VARCHAR(255) NOT NULL,
-    `token`              VARCHAR(1000) NULL DEFAULT NULL,
-    `created_date`       DATETIME DEFAULT CURRENT_TIMESTAMP,
-    `last_modified_date` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    `member_id`                  BIGINT AUTO_INCREMENT PRIMARY KEY,
+    `username`                   VARCHAR(40)  NOT NULL,
+    `id`                         VARCHAR(40)  NOT NULL UNIQUE,
+    `password`                   VARCHAR(255) NOT NULL,
+    `nickname`                   VARCHAR(40)  NOT NULL UNIQUE,
+    `email`                      VARCHAR(255) NOT NULL,
+    `token`                      VARCHAR(1000) NULL,
+    `password_token`             VARCHAR(1000) NULL,
+    `password_token_expiry_date` DATETIME NULL,
+    `created_date`               DATETIME DEFAULT CURRENT_TIMESTAMP,
+    `last_modified_date`         DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 CREATE TABLE `roles`
