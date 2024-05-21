@@ -4,6 +4,7 @@ import com.ssafy.enjoytrip.domain.member.model.Member;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Mapper
@@ -21,8 +22,6 @@ public interface MemberMapper {
 
     void deleteMember(Long memberId); // 회원 정보 수정
 
-    int findPassword(Member member);// 비밀번호 찾기
-
     void insertRole(Long memberId); // 권한 등록
 
     void deleteRole(Long memberId); // 권한 삭제
@@ -33,4 +32,15 @@ public interface MemberMapper {
 
     void deleteRefreshToken(@Param("memberId") Long memberId, @Param("token") String token);
 
+
+    /**
+     * EMAIL
+     */
+    void savePasswordResetToken(@Param("memberId") Long memberId,
+                                @Param("passwordToken") String passwordToken,
+                                @Param("passwordTokenExpiryDate") LocalDateTime passwordTokenExpiryDate);
+
+    Member findByUsernameAndEmail(@Param("username") String username, @Param("email") String email);
+
+    Member findByPasswordToken(String passwordToken);
 }

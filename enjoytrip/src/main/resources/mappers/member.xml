@@ -32,7 +32,9 @@
 
     <update id="updateMember" parameterType="Member">
         UPDATE members
-        SET password = #{password}, nickname = #{nickname}, email = #{email}
+        SET password = #{password}, nickname = #{nickname},
+        email = #{email}, password_token = #{passwordToken},
+        password_token_expiry_date = #{passwordTokenExpiryDate}
         where member_id = #{memberId}
     </update>
 
@@ -69,5 +71,22 @@
         set token = #{token, jdbcType=VARCHAR}
         where member_id = #{memberId}
     </update>
+
+
+    <!-- 이메일 -->
+    <update id="savePasswordResetToken">
+        UPDATE members
+        SET password_token = #{passwordToken}, password_token_expiry_date = #{passwordTokenExpiryDate}
+        WHERE member_id = #{memberId}
+    </update>
+
+    <select id="findByUsernameAndEmail" parameterType="map" resultType="Member">
+        SELECT * FROM members WHERE username = #{username} AND email = #{email}
+    </select>
+
+    <select id="findByPasswordToken" resultType="Member">
+        SELECT * FROM members
+        WHERE password_token = #{passwordToken}
+    </select>
 
 </mapper>

@@ -15,8 +15,6 @@ public interface MemberService {
 
     void updateMember(Member member); // 회원 정보 수정
 
-    int findPassword(Member member);// 비밀번호 찾기
-
     /**
      * ADMIN
      */
@@ -32,4 +30,12 @@ public interface MemberService {
     String getRefreshToken(Long memberId);
 
     void deleteRefreshToken(Long memberId);
+
+
+    /**
+     * MAIL
+     */
+    void processForgotPassword(String username, String email);
+
+    void resetPassword(String passwordToken, String newPassword);
 }
