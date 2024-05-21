@@ -3,7 +3,8 @@ package com.ssafy.enjoytrip.domain.hotplace.service;
 import com.ssafy.enjoytrip.domain.hotplace.mapper.HotPlaceMapper;
 import com.ssafy.enjoytrip.domain.hotplace.model.HotPlace;
 import com.ssafy.enjoytrip.domain.hotplace.model.HotPlaceList;
-import com.ssafy.enjoytrip.domain.hotplace.model.HotPlaceSearchCond;
+import com.ssafy.enjoytrip.domain.hotplace.model.dto.HotPlaceListResponse;
+import com.ssafy.enjoytrip.domain.hotplace.model.dto.HotPlaceSearchCond;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +33,7 @@ public class HotPlaceServiceImpl implements HotPlaceService {
     @Override
     public HotPlaceList hotPlaceList(HotPlaceSearchCond hotPlaceSearchCond) {
         Map<String, Object> param = new HashMap<>();
+        param.put("memberId", hotPlaceSearchCond.getMemberId());
         param.put("word", hotPlaceSearchCond.getWord() == null ? "" : hotPlaceSearchCond.getWord());
         int currentPage = hotPlaceSearchCond.getPgno();
         int sizePerPage = hotPlaceSearchCond.getSpp();
@@ -43,7 +45,7 @@ public class HotPlaceServiceImpl implements HotPlaceService {
         param.put("key", key == null ? "" : key);
         System.out.println("key " + key);
 
-        List<HotPlace> list = hotPlaceMapper.hotPlaceList(param);
+        List<HotPlaceListResponse> list = hotPlaceMapper.hotPlaceList(param);
 
         int totalArticleCount = hotPlaceMapper.getTotalCount(param);
         int totalPageCount = (totalArticleCount - 1) / sizePerPage + 1;

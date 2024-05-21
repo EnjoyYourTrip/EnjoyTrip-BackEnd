@@ -2,7 +2,7 @@ package com.ssafy.enjoytrip.domain.hotplace.controller;
 
 import com.ssafy.enjoytrip.domain.hotplace.model.HotPlace;
 import com.ssafy.enjoytrip.domain.hotplace.model.HotPlaceList;
-import com.ssafy.enjoytrip.domain.hotplace.model.HotPlaceSearchCond;
+import com.ssafy.enjoytrip.domain.hotplace.model.dto.HotPlaceSearchCond;
 import com.ssafy.enjoytrip.domain.hotplace.service.HotPlaceService;
 import com.ssafy.enjoytrip.util.ApiResponse;
 import jakarta.servlet.ServletContext;

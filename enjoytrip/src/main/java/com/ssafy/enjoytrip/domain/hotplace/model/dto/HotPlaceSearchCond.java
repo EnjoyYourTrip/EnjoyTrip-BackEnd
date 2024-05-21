@@ -1,4 +1,4 @@
-package com.ssafy.enjoytrip.domain.hotplace.model;
+package com.ssafy.enjoytrip.domain.hotplace.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,6 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class HotPlaceSearchCond {
+    private Long memberId;
     private int pgno;
     private int spp;
     private String key;

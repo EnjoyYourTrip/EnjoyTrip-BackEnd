@@ -39,13 +39,28 @@
         </if>
     </sql>
 
-    <select id="hotPlaceList" parameterType="map" resultMap="hotplace">
-        SELECT hotplace_id, member_id, title, content, address, heart, save_folder, original_file, save_file, created_date
-        FROM hotplace
+    <select id="hotPlaceList" parameterType="map" resultType="hotplaceListResponse">
+        SELECT
+        h.hotplace_id,
+        h.member_id,
+        h.title,
+        h.content,
+        h.address,
+        h.heart,
+        h.save_folder,
+        h.original_file,
+        h.save_file,
+        h.created_date,
+        CASE
+        WHEN hh.member_id IS NOT NULL THEN TRUE
+        ELSE FALSE
+        END AS isHearted
+        FROM hotplace h
+        LEFT JOIN heart_hotplace hh ON h.hotplace_id = hh.hotplace_id AND hh.member_id = #{memberId}
         <where>
             <include refid="search"/>
         </where>
-        ORDER BY heart DESC, title
+        ORDER BY h.heart DESC, h.title
         LIMIT #{start}, #{listsize}
     </select>
 
@@ -58,14 +73,16 @@
     </select>
 
     <select id="hotplaceTOP3" parameterType="String" resultMap="hotplace">
-        SELECT hotplace_id, member_id, title, content, address, heart, save_folder, original_file, save_file, created_date
+        SELECT hotplace_id, member_id, title, content, address, heart, save_folder, original_file, save_file,
+        created_date
         FROM hotplace
         ORDER BY heart DESC
         LIMIT 3
     </select>
 
     <select id="detail" parameterType="Long" resultMap="hotplace">
-        SELECT hotplace_id, member_id, title, content, address, heart, save_folder, original_file, save_file, created_date
+        SELECT hotplace_id, member_id, title, content, address, heart, save_folder, original_file, save_file,
+        created_date
         FROM hotplace
         WHERE hotplace_id = #{hotplaceId}
     </select>

@@ -1,5 +1,6 @@
 package com.ssafy.enjoytrip.domain.hotplace.model;
 
+import com.ssafy.enjoytrip.domain.hotplace.model.dto.HotPlaceListResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 public class HotPlaceList {
 
-    private List<HotPlace> hotplaces;
+    private List<HotPlaceListResponse> hotplaces;
     private int totalPages; // 전체 페이지 수
     private int currentPage; // 현재 페이지
 }

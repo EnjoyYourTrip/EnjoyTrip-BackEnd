@@ -2,7 +2,7 @@ package com.ssafy.enjoytrip.domain.hotplace.service;
 
 import com.ssafy.enjoytrip.domain.hotplace.model.HotPlace;
 import com.ssafy.enjoytrip.domain.hotplace.model.HotPlaceList;
-import com.ssafy.enjoytrip.domain.hotplace.model.HotPlaceSearchCond;
+import com.ssafy.enjoytrip.domain.hotplace.model.dto.HotPlaceSearchCond;
 
 import java.util.List;
 import java.util.Map;

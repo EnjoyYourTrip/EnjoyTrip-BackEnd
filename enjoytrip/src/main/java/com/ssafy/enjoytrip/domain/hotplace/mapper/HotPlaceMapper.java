@@ -1,6 +1,7 @@
 package com.ssafy.enjoytrip.domain.hotplace.mapper;
 
 import com.ssafy.enjoytrip.domain.hotplace.model.HotPlace;
+import com.ssafy.enjoytrip.domain.hotplace.model.dto.HotPlaceListResponse;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -14,7 +15,7 @@ public interface HotPlaceMapper {
 
     void writeFile(Map<String, Object> params);
 
-    List<HotPlace> hotPlaceList(Map<String, Object> param);
+    List<HotPlaceListResponse> hotPlaceList(Map<String, Object> param);
 
     int getTotalCount(Map<String, Object> param);
 
