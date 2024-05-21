@@ -3,6 +3,8 @@ package com.ssafy.enjoytrip.domain.member.model;
 import com.ssafy.enjoytrip.domain.common.BaseTimeEntity;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -15,7 +17,8 @@ public class Member extends BaseTimeEntity {
     private String email;
     private Role role;
     private String refreshToken;
-
+    private String passwordToken;
+    private LocalDateTime passwordTokenExpiryDate;
 
     private Member(String username, String id, String password, String nickname, String email) {
         this.username = username;
