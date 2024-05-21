@@ -1,14 +1,18 @@
 package com.ssafy.enjoytrip.domain.member.controller;
 
 import com.ssafy.enjoytrip.domain.member.model.Member;
+import com.ssafy.enjoytrip.domain.member.model.dto.ForgotPasswordRequest;
 import com.ssafy.enjoytrip.domain.member.model.dto.LoginRequest;
 import com.ssafy.enjoytrip.domain.member.model.dto.LoginResponse;
+import com.ssafy.enjoytrip.domain.member.model.dto.ResetPasswordRequest;
 import com.ssafy.enjoytrip.domain.member.service.MemberService;
 import com.ssafy.enjoytrip.util.ApiResponse;
 import com.ssafy.enjoytrip.util.JWTUtil;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,12 +21,13 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 @RequestMapping("/members")
+@Validated
 public class MemberController {
     private final MemberService memberService;
     private final JWTUtil jwtUtil;
 
     @PostMapping("/login")
-    public ApiResponse<?> login(@RequestBody LoginRequest loginRequest) {
+    public ApiResponse<?> login(@Valid @RequestBody LoginRequest loginRequest) {
         try {
             Member findMember = memberService.login(loginRequest);
             if (findMember == null) {
@@ -57,7 +62,7 @@ public class MemberController {
     }
 
     @PostMapping("/signup")
-    public ApiResponse<?> sigUp(@RequestBody Member member) {
+    public ApiResponse<?> signUp(@Valid @RequestBody Member member) {
         try {
             memberService.insertMember(member);
             return ApiResponse.createSuccess(member.getMemberId(), "회원가입 성공");
@@ -95,8 +100,7 @@ public class MemberController {
         }
     }
 
-
-    @GetMapping()
+    @GetMapping
     public ApiResponse<?> listMember() {
         try {
             List<Member> findMembers = memberService.listMember();
@@ -111,8 +115,30 @@ public class MemberController {
 
     }
 
+    @PostMapping("/forgot-password")
+    public ApiResponse<?> forgotPassword(@Valid @RequestBody ForgotPasswordRequest request) {
+        try {
+            memberService.processForgotPassword(request.getUsername(), request.getEmail());
+            return ApiResponse.createSuccess(null, "비밀번호 재설정 이메일을 발송했습니다.");
+        } catch (Exception e) {
+            log.error("비밀번호 재설정 요청 실패: {}", e.getMessage());
+            return ApiResponse.createError("비밀번호 재설정 요청 실패");
+        }
+    }
+
+    @PostMapping("/reset-password")
+    public ApiResponse<?> resetPassword(@Valid @RequestBody ResetPasswordRequest request) {
+        try {
+            memberService.resetPassword(request.getPasswordToken(), request.getNewPassword());
+            return ApiResponse.createSuccess(null, "비밀번호가 성공적으로 재설정되었습니다.");
+        } catch (Exception e) {
+            log.error("비밀번호 재설정 실패: {}", e.getMessage());
+            return ApiResponse.createError("비밀번호 재설정 실패");
+        }
+    }
+
     @PatchMapping("/{memberId}")
-    public ApiResponse<?> updateMember(@PathVariable Long memberId, @RequestBody Member member) {
+    public ApiResponse<?> updateMember(@PathVariable Long memberId, @Valid @RequestBody Member member) {
         try {
             member.setMemberId(memberId);
             memberService.updateMember(member);
