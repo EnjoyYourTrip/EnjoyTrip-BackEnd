@@ -48,12 +48,7 @@
         WHERE member_id = #{memberId}
     </delete>
 
-    <select id="idCheck" parameterType="String" resultType="int">
-        select count(memberId)
-        from members
-        where member_id = #{memberId}
-    </select>
-
+    <!-- jwt -->
     <update id="saveRefreshToken" parameterType="map">
         update members
         set token = #{token}
@@ -71,7 +66,6 @@
         set token = #{token, jdbcType=VARCHAR}
         where member_id = #{memberId}
     </update>
-
 
     <!-- 이메일 -->
     <update id="savePasswordResetToken">
