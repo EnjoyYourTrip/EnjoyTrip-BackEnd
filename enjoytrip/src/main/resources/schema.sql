@@ -31,6 +31,7 @@ CREATE TABLE `hotplace`
     `content`            VARCHAR(255) NOT NULL,
     `address`            VARCHAR(200) NOT NULL,
     `heart`              INT         DEFAULT 0,
+    `selected_filter`    VARCHAR(45) NOT NULL DEFAULT 'basic',
     `save_folder`        VARCHAR(45) DEFAULT NULL,
     `original_file`      VARCHAR(50) DEFAULT NULL,
     `save_file`          VARCHAR(50) DEFAULT NULL,
