@@ -39,7 +39,7 @@
         </if>
     </sql>
 
-    <select id="hotPlaceList" parameterType="map" resultType="hotplaceListResponse">
+    <select id="hotPlaceList" parameterType="map" resultType="hotPlaceListResponse">
         SELECT
         h.hotplace_id,
         h.member_id,
@@ -47,6 +47,7 @@
         h.content,
         h.address,
         h.heart,
+        h.selected_filter,
         h.save_folder,
         h.original_file,
         h.save_file,
