@@ -36,7 +36,8 @@ CREATE TABLE `hotplace`
     `save_file`          VARCHAR(50) DEFAULT NULL,
     `created_date`       DATETIME    DEFAULT CURRENT_TIMESTAMP,
     `last_modified_date` DATETIME    DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (`member_id`) REFERENCES `members` (`member_id`) ON DELETE CASCADE
+    FOREIGN KEY (`member_id`) REFERENCES `members` (`member_id`) ON DELETE CASCADE,
+    INDEX                `idx_hotplace_member_id` (`member_id`)
 );
 
 CREATE TABLE `heart_hotplace`
@@ -45,7 +46,11 @@ CREATE TABLE `heart_hotplace`
     `hotplace_id`       BIGINT NOT NULL,
     `member_id`         BIGINT NOT NULL,
     FOREIGN KEY (`hotplace_id`) REFERENCES `hotplace` (`hotplace_id`) ON DELETE CASCADE,
-    FOREIGN KEY (`member_id`) REFERENCES `members` (`member_id`) ON DELETE CASCADE
+    FOREIGN KEY (`member_id`) REFERENCES `members` (`member_id`) ON DELETE CASCADE,
+    INDEX               `idx_heart_hotplace_hotplace_id` (`hotplace_id`),
+    INDEX               `idx_heart_hotplace_member_id` (`member_id`),
+    UNIQUE KEY `uq_heart_hotplace_hotplace_member` (`hotplace_id`, `member_id`)
+
 );
 
 CREATE TABLE `itinerary`
@@ -75,11 +80,11 @@ CREATE TABLE `question`
     `question_id`        BIGINT AUTO_INCREMENT PRIMARY KEY,
     `title`              VARCHAR(100) NOT NULL,
     `content`            VARCHAR(255) NOT NULL,
-    `hit`                INT          DEFAULT 0,
+    `hit`                INT                   DEFAULT 0,
     `has_response`       BOOLEAN      NOT NULL DEFAULT false,
     `member_id`          BIGINT       NOT NULL,
-    `created_date`       DATETIME     DEFAULT CURRENT_TIMESTAMP,
-    `last_modified_date` DATETIME     DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `created_date`       DATETIME              DEFAULT CURRENT_TIMESTAMP,
+    `last_modified_date` DATETIME              DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (`member_id`) REFERENCES `members` (`member_id`) ON DELETE CASCADE
 );
 
