@@ -16,9 +16,9 @@
         <result column="save_file" property="saveFile"/>
     </resultMap>
 
-    <insert id="write" parameterType="HotPlace" useGeneratedKeys="true" keyProperty="hotplaceId">
-        INSERT INTO hotplace (member_id, title, content, address, save_folder, original_file, save_file)
-        VALUES (#{memberId}, #{title}, #{content}, #{address}, #{saveFolder}, #{originalFile}, #{saveFile})
+    <insert id="write" parameterType="HotPlaceRegisterRequest" useGeneratedKeys="true" keyProperty="hotplaceId">
+        INSERT INTO hotplace (member_id, title, content, address, selected_filter)
+        VALUES (#{memberId}, #{title}, #{content}, #{address}, #{selectedFilter})
     </insert>
 
     <update id="writeFile" parameterType="map">

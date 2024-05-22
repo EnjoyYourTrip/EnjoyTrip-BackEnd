@@ -16,6 +16,7 @@ public class HotPlace extends BaseTimeEntity {
     private String address;
     private String username;
     private int heart;
+    private String selectedFilter;
     private String saveFolder;
     private String originalFile;
     private String saveFile;

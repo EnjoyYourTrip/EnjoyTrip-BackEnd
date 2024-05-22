@@ -2,6 +2,7 @@ package com.ssafy.enjoytrip.domain.hotplace.mapper;
 
 import com.ssafy.enjoytrip.domain.hotplace.model.HotPlace;
 import com.ssafy.enjoytrip.domain.hotplace.model.dto.HotPlaceListResponse;
+import com.ssafy.enjoytrip.domain.hotplace.model.dto.HotPlaceRegisterRequest;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -9,9 +10,8 @@ import java.util.Map;
 
 @Mapper
 public interface HotPlaceMapper {
-    int getCount();
 
-    void write(HotPlace hotPlace);
+    void write(HotPlaceRegisterRequest hotPlaceRegisterRequest);
 
     void writeFile(Map<String, Object> params);
 

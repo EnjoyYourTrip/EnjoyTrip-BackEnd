@@ -3,6 +3,7 @@ package com.ssafy.enjoytrip.init;
 import com.ssafy.enjoytrip.domain.answer.model.Answer;
 import com.ssafy.enjoytrip.domain.answer.service.AnswerService;
 import com.ssafy.enjoytrip.domain.hotplace.model.HotPlace;
+import com.ssafy.enjoytrip.domain.hotplace.model.dto.HotPlaceRegisterRequest;
 import com.ssafy.enjoytrip.domain.hotplace.service.HotPlaceService;
 import com.ssafy.enjoytrip.domain.itinerary.model.Itinerary;
 import com.ssafy.enjoytrip.domain.itinerary.model.ItineraryDetail;
@@ -93,12 +94,11 @@ public class InitDb {
         public void hotPlaceInit() {
             for (int i = 2; i <= 6; i++) {
                 for (int j = 1; j <= 20; j++) {
-                    HotPlace hotPlace = new HotPlace();
+                    HotPlaceRegisterRequest hotPlace = new HotPlaceRegisterRequest();
                     hotPlace.setMemberId(Long.parseLong(String.valueOf(i)));
                     hotPlace.setTitle("HotPlace 제목" + j);
                     hotPlace.setContent("HotPlace 내용" + j);
                     hotPlace.setAddress("Address " + j);
-                    hotPlace.setHeart(0);
                     hotPlaceService.write(hotPlace);
 
                     // Create file information and associate it with the hot place

@@ -2,6 +2,7 @@ package com.ssafy.enjoytrip.domain.hotplace.controller;
 
 import com.ssafy.enjoytrip.domain.hotplace.model.HotPlace;
 import com.ssafy.enjoytrip.domain.hotplace.model.HotPlaceList;
+import com.ssafy.enjoytrip.domain.hotplace.model.dto.HotPlaceRegisterRequest;
 import com.ssafy.enjoytrip.domain.hotplace.model.dto.HotPlaceSearchCond;
 import com.ssafy.enjoytrip.domain.hotplace.service.HotPlaceService;
 import com.ssafy.enjoytrip.util.ApiResponse;
@@ -33,11 +34,11 @@ public class HotPlaceController {
 
     // 파일 제외하고 핫플레이스 등록
     @PostMapping("/write")
-    public ApiResponse<?> write(@RequestBody HotPlace hotPlace) {
-        log.debug("write hotplaceDto : {}", hotPlace);
+    public ApiResponse<?> write(@RequestBody HotPlaceRegisterRequest hotPlaceRegisterRequest) {
+        log.debug("write hotPlaceRegisterRequest : {}", hotPlaceRegisterRequest);
         try {
-            hotPlaceService.write(hotPlace);
-            return ApiResponse.createSuccess(hotPlace.getHotplaceId());
+            hotPlaceService.write(hotPlaceRegisterRequest);
+            return ApiResponse.createSuccess(hotPlaceRegisterRequest.getHotplaceId());
         } catch (Exception e) {
             return ApiResponse.createError("파일 제외 핫플 write 실패");
         }

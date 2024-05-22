@@ -4,6 +4,7 @@ import com.ssafy.enjoytrip.domain.hotplace.mapper.HotPlaceMapper;
 import com.ssafy.enjoytrip.domain.hotplace.model.HotPlace;
 import com.ssafy.enjoytrip.domain.hotplace.model.HotPlaceList;
 import com.ssafy.enjoytrip.domain.hotplace.model.dto.HotPlaceListResponse;
+import com.ssafy.enjoytrip.domain.hotplace.model.dto.HotPlaceRegisterRequest;
 import com.ssafy.enjoytrip.domain.hotplace.model.dto.HotPlaceSearchCond;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,8 +22,8 @@ public class HotPlaceServiceImpl implements HotPlaceService {
     private final HotPlaceMapper hotPlaceMapper;
 
     @Override
-    public void write(HotPlace hotPlace) {
-        hotPlaceMapper.write(hotPlace);
+    public void write(HotPlaceRegisterRequest hotPlaceRegisterRequest) {
+        hotPlaceMapper.write(hotPlaceRegisterRequest);
     }
 
     @Override
@@ -87,6 +88,7 @@ public class HotPlaceServiceImpl implements HotPlaceService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Long> getMyHeart(Long memberId) {
         return hotPlaceMapper.getMyHeartList(memberId);
     }
@@ -112,7 +114,7 @@ public class HotPlaceServiceImpl implements HotPlaceService {
         List<Long> list = hotPlaceMapper.getMyHeartList(memberId);
         List<HotPlace> result = new ArrayList<>();
 
-        for (Long hotplaceId: list) {
+        for (Long hotplaceId : list) {
             HotPlace hotPlace = hotPlaceMapper.detail(hotplaceId);
             result.add(hotPlace);
         }
