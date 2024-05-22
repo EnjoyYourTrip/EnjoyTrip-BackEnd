@@ -9,9 +9,7 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.MailException;
 import org.springframework.mail.MailSendException;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,25 +29,14 @@ public class MemberServiceImpl implements MemberService {
     private final PasswordEncoder passwordEncoder;
     private final JavaMailSender mailSender;
 
-    @Value("${app.frontend.url}")
-    private String frontendUrl;
-
+    @Value("${password.reset.url}")
+    private String passwordResetLink;
 
     @Override
     public void insertMember(Member member) {
-        passwordHashing(member);
+        member.setPassword(passwordEncoder.encode(member.getPassword()));
         memberMapper.insertMember(member);
-        insertRole(member);
-    }
-
-    private void passwordHashing(Member member) {
-        String encodedPassword = passwordEncoder.encode(member.getPassword());
-        member.setPassword(encodedPassword);
-    }
-
-    private void insertRole(Member member) {
-        Long memberId = member.getMemberId();
-        memberMapper.insertRole(memberId);
+        memberMapper.insertRole(member.getMemberId());
     }
 
     @Override
@@ -116,12 +103,11 @@ public class MemberServiceImpl implements MemberService {
         member.setPasswordTokenExpiryDate(passwordTokenExpiryDate);
         memberMapper.savePasswordResetToken(member.getMemberId(), passwordToken, passwordTokenExpiryDate);
 
-        String resetLink = frontendUrl + "/reset";
-        sendResetPasswordEmail(member.getUsername(), member.getEmail(), resetLink, passwordToken, passwordTokenExpiryDate);
+        sendResetPasswordEmail(member.getUsername(), member.getEmail(), passwordToken, passwordTokenExpiryDate);
     }
 
     // HTML 이메일 발송 메서드
-    private void sendResetPasswordEmail(String username, String email, String resetLink, String token, LocalDateTime expiryDate) {
+    private void sendResetPasswordEmail(String username, String email, String token, LocalDateTime expiryDate) {
         try {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
@@ -155,7 +141,7 @@ public class MemberServiceImpl implements MemberService {
                     .append("<h2>비밀번호 재설정 요청</h2>")
                     .append("<p>안녕하세요 ").append(username).append("님, Trip-Helper입니다.</p>")
                     .append("<p>비밀번호를 재설정하려면 아래 링크를 클릭하고, 제공된 토큰을 입력하세요:</p>")
-                    .append("<p><a href=\"").append(resetLink).append("\">비밀번호 재설정 링크</a></p>")
+                    .append("<p><a href=\"").append(passwordResetLink).append("\">비밀번호 재설정 링크</a></p>")
                     .append("<p>토큰: <span class='token'>").append(token).append("</span></p>")
                     .append("<p class='expiry'>토큰 만료 시간: ").append(formattedExpiryDate).append("</p>")
                     .append("<p>이 요청을 하지 않았다면, 이 이메일을 무시하세요.</p>")
@@ -178,15 +164,15 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void resetPassword(String passwordToken, String newPassword) {
-        Member member = memberMapper.findByPasswordToken(passwordToken);
-        if (member == null || member.getPasswordTokenExpiryDate().isBefore(LocalDateTime.now())) {
+        Member findMember = memberMapper.findByPasswordToken(passwordToken);
+        if (findMember == null || findMember.getPasswordTokenExpiryDate().isBefore(LocalDateTime.now())) {
             throw new InvalidTokenException("유효하지 않거나 만료된 토큰입니다.");
         }
 
-        member.setPassword(passwordEncoder.encode(newPassword));
-        member.setPasswordToken(null);
-        member.setPasswordTokenExpiryDate(null);
-        memberMapper.updateMember(member);
+        findMember.setPassword(passwordEncoder.encode(newPassword));
+        findMember.setPasswordToken(null);
+        findMember.setPasswordTokenExpiryDate(null);
+        memberMapper.updateMember(findMember);
     }
 
 }

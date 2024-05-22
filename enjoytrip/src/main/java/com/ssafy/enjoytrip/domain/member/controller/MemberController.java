@@ -44,7 +44,7 @@ public class MemberController {
 
             return ApiResponse.createSuccess(new LoginResponse(accessToken, refreshToken), "로그인 성공");
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error("로그인 에러 발생: {}", e.getMessage());
             return ApiResponse.createError("로그인 에러 발생");
         }
 
@@ -56,7 +56,7 @@ public class MemberController {
             memberService.deleteRefreshToken(memberId);
             return ApiResponse.createSuccessWithNoContent();
         } catch (Exception e) {
-            log.error("로그아웃 실패 : {}", e);
+            log.error("로그아웃 실패 : {}", e.getMessage());
             return ApiResponse.createError("로그아웃 에러 발생");
         }
     }
@@ -67,7 +67,7 @@ public class MemberController {
             memberService.insertMember(member);
             return ApiResponse.createSuccess(member.getMemberId(), "회원가입 성공");
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error("회원가입 에러 발생: {}", e.getMessage());
             return ApiResponse.createError("회원가입 에러 발생");
         }
     }
@@ -75,23 +75,23 @@ public class MemberController {
     @GetMapping("/{memberId}")
     public ApiResponse<?> userInfo(@PathVariable Long memberId, HttpServletRequest request) {
         String token = request.getHeader("Authorization");
-        if (jwtUtil.checkToken(token)) {
-            log.info("사용 가능한 토큰!!!");
+        if (token != null && jwtUtil.checkToken(token)) {
+            log.info("사용 가능한 토큰");
             try {
                 Long tokenMemberId = jwtUtil.getMemberId(token);
                 if (!memberId.equals(tokenMemberId)) {
-                    log.error("토큰의 사용자 ID와 요청된 사용자 ID 불일치!!!");
+                    log.error("토큰의 사용자 ID와 요청된 사용자 ID 불일치");
                     return ApiResponse.createFail("접근이 거부되었습니다.");
                 }
 
                 Member findMember = memberService.userInfo(memberId);
                 if (findMember == null) {
-                    log.error("회원 존재X !!!");
+                    log.error("회원 존재하지 않음");
                     return ApiResponse.createFail("회원 상세 조회 실패");
                 }
                 return ApiResponse.createSuccess(findMember, "회원 상세 조회 성공");
             } catch (Exception e) {
-                log.error(e.getMessage());
+                log.error("회원 상세 조회 에러 발생: {}", e.getMessage());
                 return ApiResponse.createError("회원 상세 조회 에러 발생");
             }
         } else {
@@ -109,7 +109,7 @@ public class MemberController {
             }
             return ApiResponse.createSuccess(findMembers, "회원 목록 조회 성공");
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error("회원 목록 조회 에러 발생: {}", e.getMessage());
             return ApiResponse.createError("회원 목록 조회 에러 발생");
         }
 
@@ -144,7 +144,7 @@ public class MemberController {
             memberService.updateMember(member);
             return ApiResponse.createSuccess(memberId, "회원 정보 수정 성공");
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error("회원 정보 수정 에러 발생: {}", e.getMessage());
             return ApiResponse.createError("회원 정보 수정 에러 발생");
         }
     }
@@ -155,7 +155,7 @@ public class MemberController {
             memberService.deleteMember(memberId);
             return ApiResponse.createSuccess(memberId, "회원 삭제 성공");
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error("회원 삭제 에러 발생: {}", e.getMessage());
             return ApiResponse.createError("회원 삭제 에러 발생");
         }
     }
@@ -168,13 +168,13 @@ public class MemberController {
             if (token.equals(memberService.getRefreshToken(memberId))) {
                 String accessToken = jwtUtil.createAccessToken(memberId);
                 log.debug("token : {}", accessToken);
-                log.debug("정상적으로 access token 재발급!!!");
+                log.debug("정상적으로 access token 재발급");
                 return ApiResponse.createSuccess(accessToken, "access token 생성");
             } else {
                 return ApiResponse.createFail("회원 정보와 refresh token 일치 하지 않음!");
             }
         } else {
-            log.debug("refresh token 도 사용 불가!!!!!!!");
+            log.debug("refresh token 도 사용 불가");
             return ApiResponse.createFail("refresh token 만료");
         }
     }

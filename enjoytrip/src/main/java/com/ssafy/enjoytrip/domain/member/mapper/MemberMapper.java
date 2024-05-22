@@ -18,9 +18,9 @@ public interface MemberMapper {
 
     List<Member> listMember(); // 회원 목록 조회
 
-    void updateMember(Member member); // 회원 정보 삭제
+    void updateMember(Member member); // 회원 정보 수정
 
-    void deleteMember(Long memberId); // 회원 정보 수정
+    void deleteMember(Long memberId); // 회원 정보 삭제
 
     void insertRole(Long memberId); // 권한 등록
 

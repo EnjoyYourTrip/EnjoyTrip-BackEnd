@@ -15,7 +15,7 @@ public class Member extends BaseTimeEntity {
     private String password;
     private String nickname;
     private String email;
-    private Role role;
+    private Role role = Role.USER;
     private String refreshToken;
     private String passwordToken;
     private LocalDateTime passwordTokenExpiryDate;

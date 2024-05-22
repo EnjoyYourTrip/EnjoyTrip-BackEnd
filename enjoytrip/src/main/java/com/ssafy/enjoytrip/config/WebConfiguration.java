@@ -3,6 +3,7 @@ package com.ssafy.enjoytrip.config;
 import com.ssafy.enjoytrip.domain.page.model.MySQLPageRequestHandleMethodArgumentResolver;
 import com.ssafy.enjoytrip.interceptor.JWTInterceptor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -15,7 +16,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class WebConfiguration implements WebMvcConfigurer {
 
-//    private final JWTInterceptor jwtInterceptor;
+    //    private final JWTInterceptor jwtInterceptor;
+    @Value("${file.uploads.path}")
+    private String uploadsPath;
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
@@ -33,7 +36,7 @@ public class WebConfiguration implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
 //        registry.addInterceptor(jwtInterceptor)
 //                .addPathPatterns("/api/**") // JWT 검증이 필요한 경로 패턴 지정
-//                .excludePathPatterns("/api/auth/**"); // JWT 검증이 필요 없는 경로 패턴 지정 (예: 로그인, 회원가입)
+//                .excludePathPatterns("/api/auth/**"); // JWT 검증이 필요 없는 경로 패턴 지정 (ex: 로그인, 회원가입)
     }
 
     // 정적 자원 핸들링
@@ -44,7 +47,7 @@ public class WebConfiguration implements WebMvcConfigurer {
         registry.addResourceHandler("/*.html**") // 모든 HTML 파일에 대해 자원 핸들링
                 .addResourceLocations("classpath:/static/"); // 정적 자원의 실제 위치
         registry.addResourceHandler("/uploads/**") // /uploads/ 경로로 요청되는 자원 핸들링(파일 업로드)
-                .addResourceLocations("file:///C:/Users/trip-helper/upload/"); // 정적 자원의 실제 위치
+                .addResourceLocations(uploadsPath); // 정적 자원의 실제 위치
     }
 
     @Override
