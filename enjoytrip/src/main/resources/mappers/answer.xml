@@ -3,7 +3,7 @@
 <mapper namespace="com.ssafy.enjoytrip.domain.answer.mapper.AnswerMapper">
 
     <select id="answerInfo" parameterType="Long" resultType="Answer">
-        SELECT * FROM answer WHERE answer_id = #{answerId}
+        SELECT * FROM answer WHERE question_id = #{questionId}
     </select>
 
     <insert id="insertAnswer" parameterType="Answer" useGeneratedKeys="true" keyProperty="answerId">

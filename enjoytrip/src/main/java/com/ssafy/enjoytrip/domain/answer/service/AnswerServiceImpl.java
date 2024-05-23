@@ -18,8 +18,8 @@ public class AnswerServiceImpl implements AnswerService {
     private final QuestionMapper questionMapper;
 
     @Override
-    public Answer answerInfo(Long answerId) {
-        return answerMapper.answerInfo(answerId);
+    public Answer answerInfo(Long questionId) {
+        return answerMapper.answerInfo(questionId);
     }
 
     @Override

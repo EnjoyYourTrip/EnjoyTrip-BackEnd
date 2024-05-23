@@ -16,19 +16,33 @@ public class AnswerController {
 
     private final AnswerService answerService;
 
-    @GetMapping("/{answerId}")
-    public ApiResponse<?> getAnswer(@PathVariable Long answerId) {
+    @GetMapping("/{questionId}")
+    public ApiResponse<?> getAnswer(@PathVariable Long questionId) {
         try {
-            Answer answer = answerService.answerInfo(answerId);
+            Answer answer = answerService.answerInfo(questionId);
             if (answer == null) {
-                return ApiResponse.createFail("답변 상세 조회 실패");
+                return ApiResponse.createFail("답변이 존재하지 않습니다.");
             }
             return ApiResponse.createSuccess(answer);
         } catch (Exception e) {
-            log.error("Failed to retrieve answer with ID: {}", answerId, e);
+            log.error("Failed to retrieve answer with ID: {}", questionId, e);
             return ApiResponse.createError("답변 상세 조회 에러");
         }
     }
+
+//    @GetMapping("/{answerId}")
+//    public ApiResponse<?> getAnswer(@PathVariable Long answerId) {
+//        try {
+//            Answer answer = answerService.answerInfo(answerId);
+//            if (answer == null) {
+//                return ApiResponse.createFail("답변 상세 조회 실패");
+//            }
+//            return ApiResponse.createSuccess(answer);
+//        } catch (Exception e) {
+//            log.error("Failed to retrieve answer with ID: {}", answerId, e);
+//            return ApiResponse.createError("답변 상세 조회 에러");
+//        }
+//    }
 
     @PostMapping("")
     public ApiResponse<?> createAnswer(@RequestBody Answer answer) {

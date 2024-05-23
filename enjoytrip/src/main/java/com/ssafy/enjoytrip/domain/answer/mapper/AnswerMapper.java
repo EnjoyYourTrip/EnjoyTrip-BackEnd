@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface AnswerMapper {
 
-    Answer answerInfo(Long answerId); // 답변 조회
+    Answer answerInfo(Long questionId); // 답변 조회
 
     void insertAnswer(Answer answer); // 답변 등록
 
