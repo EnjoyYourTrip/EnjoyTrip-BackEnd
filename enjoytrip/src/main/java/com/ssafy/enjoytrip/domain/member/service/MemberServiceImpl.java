@@ -36,7 +36,7 @@ public class MemberServiceImpl implements MemberService {
     public void insertMember(Member member) {
         member.setPassword(passwordEncoder.encode(member.getPassword()));
         memberMapper.insertMember(member);
-        memberMapper.insertRole(member.getMemberId());
+        memberMapper.insertRole(member.getMemberId(), member.getRole());
     }
 
     @Override

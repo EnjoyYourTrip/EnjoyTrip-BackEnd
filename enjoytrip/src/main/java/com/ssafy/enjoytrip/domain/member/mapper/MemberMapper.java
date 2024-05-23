@@ -1,6 +1,7 @@
 package com.ssafy.enjoytrip.domain.member.mapper;
 
 import com.ssafy.enjoytrip.domain.member.model.Member;
+import com.ssafy.enjoytrip.domain.member.model.Role;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -22,7 +23,7 @@ public interface MemberMapper {
 
     void deleteMember(Long memberId); // 회원 정보 삭제
 
-    void insertRole(Long memberId); // 권한 등록
+    void insertRole(@Param("memberId")Long memberId, @Param("role") Role role); // 권한 등록
 
     void deleteRole(Long memberId); // 권한 삭제
 

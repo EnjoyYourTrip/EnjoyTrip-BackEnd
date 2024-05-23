@@ -9,6 +9,7 @@ import com.ssafy.enjoytrip.domain.itinerary.model.Itinerary;
 import com.ssafy.enjoytrip.domain.itinerary.model.ItineraryDetail;
 import com.ssafy.enjoytrip.domain.itinerary.service.ItineraryService;
 import com.ssafy.enjoytrip.domain.member.model.Member;
+import com.ssafy.enjoytrip.domain.member.model.Role;
 import com.ssafy.enjoytrip.domain.member.service.MemberService;
 import com.ssafy.enjoytrip.domain.question.model.Question;
 import com.ssafy.enjoytrip.domain.question.service.QuestionService;
@@ -65,6 +66,10 @@ public class InitDb {
         private final ItineraryService itineraryService;
 
         public void memberInit() {
+            Member adminMember = Member.createMember("admin", "admin", "admin", "adminNickname", "admin@email");
+            adminMember.setRole(Role.ADMIN);
+            memberService.insertMember(adminMember);
+
             for (int i = 2; i <= 6; i++) {
                 Member member = Member.createMember("userName" + i, "id" + i, "password" + i, "nickname" + i, "email" + i);
                 memberService.insertMember(member);

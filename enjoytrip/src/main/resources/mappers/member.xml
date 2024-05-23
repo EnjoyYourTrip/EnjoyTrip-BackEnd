@@ -25,9 +25,9 @@
         VALUES (#{username}, #{id}, #{password}, #{nickname}, #{email})
     </insert>
 
-    <insert id="insertRole" parameterType="Long">
-        INSERT INTO roles (member_id)
-        VALUES (#{memberId})
+    <insert id="insertRole" parameterType="Map">
+        INSERT INTO roles (member_id, role_name)
+        VALUES (#{memberId}, #{role.name})
     </insert>
 
     <update id="updateMember" parameterType="Member">
