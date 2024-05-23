@@ -13,7 +13,7 @@
         SELECT q.question_id, m.nickname, q.title, q.hit, q.has_response , q.created_date, q.last_modified_date
         FROM question q
         JOIN members m ON q.member_id = m.member_id
-        ORDER BY question_id ASC
+        ORDER BY question_id DESC
         LIMIT #{pageRequest.offset}, #{pageRequest.limit};
     </select>
 
