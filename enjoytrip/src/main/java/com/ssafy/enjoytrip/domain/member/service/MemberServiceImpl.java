@@ -3,6 +3,7 @@ package com.ssafy.enjoytrip.domain.member.service;
 import com.ssafy.enjoytrip.domain.member.mapper.MemberMapper;
 import com.ssafy.enjoytrip.domain.member.model.Member;
 import com.ssafy.enjoytrip.domain.member.model.dto.LoginRequest;
+import com.ssafy.enjoytrip.domain.member.model.dto.UserDetailResponse;
 import com.ssafy.enjoytrip.exception.EmailNotFoundException;
 import com.ssafy.enjoytrip.exception.InvalidTokenException;
 import jakarta.mail.MessagingException;
@@ -51,7 +52,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional(readOnly = true)
-    public Member userInfo(Long memberId) {
+    public UserDetailResponse userInfo(Long memberId) {
         return memberMapper.userInfo(memberId);
     }
 

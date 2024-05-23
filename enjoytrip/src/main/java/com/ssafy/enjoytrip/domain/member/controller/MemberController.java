@@ -1,10 +1,7 @@
 package com.ssafy.enjoytrip.domain.member.controller;
 
 import com.ssafy.enjoytrip.domain.member.model.Member;
-import com.ssafy.enjoytrip.domain.member.model.dto.ForgotPasswordRequest;
-import com.ssafy.enjoytrip.domain.member.model.dto.LoginRequest;
-import com.ssafy.enjoytrip.domain.member.model.dto.LoginResponse;
-import com.ssafy.enjoytrip.domain.member.model.dto.ResetPasswordRequest;
+import com.ssafy.enjoytrip.domain.member.model.dto.*;
 import com.ssafy.enjoytrip.domain.member.service.MemberService;
 import com.ssafy.enjoytrip.util.ApiResponse;
 import com.ssafy.enjoytrip.util.JWTUtil;
@@ -84,7 +81,7 @@ public class MemberController {
                     return ApiResponse.createFail("접근이 거부되었습니다.");
                 }
 
-                Member findMember = memberService.userInfo(memberId);
+                UserDetailResponse findMember = memberService.userInfo(memberId);
                 if (findMember == null) {
                     log.error("회원 존재하지 않음");
                     return ApiResponse.createFail("회원 상세 조회 실패");

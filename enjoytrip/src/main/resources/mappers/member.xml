@@ -8,11 +8,24 @@
         WHERE id = #{id};
     </select>
 
-    <select id="userInfo" parameterType="Long" resultType="Member">
-        SELECT *
-        FROM members
-        WHERE member_id = #{memberId};
+    <select id="userInfo" parameterType="Long" resultType="UserDetailResponse">
+        SELECT
+        m.member_id,
+        m.username,
+        m.id,
+        m.password,
+        m.nickname,
+        m.email,
+        m.token AS refreshToken,
+        r.role_name AS role
+        FROM
+        members m
+        LEFT JOIN
+        roles r ON m.member_id = r.member_id
+        WHERE
+        m.member_id = #{memberId};
     </select>
+
 
     <select id="listMember" resultType="Member">
         SELECT *

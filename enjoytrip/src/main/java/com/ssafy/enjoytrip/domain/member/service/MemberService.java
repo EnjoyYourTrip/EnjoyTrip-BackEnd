@@ -3,6 +3,7 @@ package com.ssafy.enjoytrip.domain.member.service;
 
 import com.ssafy.enjoytrip.domain.member.model.Member;
 import com.ssafy.enjoytrip.domain.member.model.dto.LoginRequest;
+import com.ssafy.enjoytrip.domain.member.model.dto.UserDetailResponse;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ public interface MemberService {
 
     Member login(LoginRequest loginRequest); // 로그인
 
-    Member userInfo(Long memberId); // 회원 상세 정보 조회
+    UserDetailResponse userInfo(Long memberId); // 회원 상세 정보 조회
 
     void updateMember(Member member); // 회원 정보 수정
 

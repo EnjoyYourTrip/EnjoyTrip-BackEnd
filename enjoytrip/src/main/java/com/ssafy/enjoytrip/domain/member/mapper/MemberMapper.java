@@ -2,6 +2,7 @@ package com.ssafy.enjoytrip.domain.member.mapper;
 
 import com.ssafy.enjoytrip.domain.member.model.Member;
 import com.ssafy.enjoytrip.domain.member.model.Role;
+import com.ssafy.enjoytrip.domain.member.model.dto.UserDetailResponse;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -15,7 +16,7 @@ public interface MemberMapper {
 
     Member login(String id); // 로그인
 
-    Member userInfo(Long memberId); // 회원 상세 정보 조회
+    UserDetailResponse userInfo(Long memberId); // 회원 상세 정보 조회
 
     List<Member> listMember(); // 회원 목록 조회
 
